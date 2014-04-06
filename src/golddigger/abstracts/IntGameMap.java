@@ -13,9 +13,7 @@ package golddigger.abstracts;
 public interface IntGameMap {
     int getHeight();
     int getWidth();
+    int getTimeLimit();
     boolean loadMap(Object source);
     boolean saveMap();
-    void drowMap();
-    int getTimeLimit();
-    
 }

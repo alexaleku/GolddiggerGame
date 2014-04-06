@@ -6,13 +6,11 @@
 
 package golddigger.abstracts;
 
-import golddigger.abstracts.EnMovingDirection;
-
 /**
  *
  * @author alexkurocha
  */
-public interface IntMovingObject extends IntStaticObject {
-    void move(EnMovingDirection derection);
-    
+public enum EnMapLoaderType {
+    FS,
+    DB
 }

@@ -9,6 +9,7 @@ package golddigger.abstracts;
 import golddigger.mapobjects.Coordinate;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 
@@ -54,11 +55,6 @@ public abstract class AbsGameMap implements IntGameMap, Serializable {
     }
 
     @Override
-    public void drowMap() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public int getTimeLimit() {
         return timeLimit;
     }
@@ -83,8 +79,8 @@ public abstract class AbsGameMap implements IntGameMap, Serializable {
         return gameObjects.get(new Coordinate(x, y));
     }
 
-    public HashMap<Coordinate, AbsGameObject> getGameObjects() {
-        return gameObjects;
+    public Collection<AbsGameObject> getGameObjects() {
+        return gameObjects.values();
     }
     
     public String getMapName() {
@@ -109,6 +105,9 @@ public abstract class AbsGameMap implements IntGameMap, Serializable {
 
     public void setCharacterExist(boolean characterExist) {
         this.characterExist = characterExist;
+    }
+    public ArrayList<AbsGameObject> getObjectsByType(EnGameObjectType type) {
+        return byTypeGameObjects.get(type);
     }
     
     public void addObjectsToCollections(AbsGameObject absGameObject) {

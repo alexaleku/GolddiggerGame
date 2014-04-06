@@ -6,7 +6,11 @@
 
 package golddigger.abstracts;
 
-import golddigger.abstracts.AbsGameObject;
+import static golddigger.abstracts.EnMovingDirection.DOWN;
+import static golddigger.abstracts.EnMovingDirection.LEFT;
+import static golddigger.abstracts.EnMovingDirection.RIGHT;
+import static golddigger.abstracts.EnMovingDirection.UP;
+import golddigger.mapobjects.Coordinate;
 import javax.swing.ImageIcon;
 
 /**
@@ -20,7 +24,39 @@ public abstract class AbsMovingObject extends AbsGameObject implements IntMoving
     private ImageIcon iconLeft;
 
     @Override
-    public void move(EnMovingDiraction derection) {
+    public void move(EnMovingDirection direction) {
+         // берем текущие координаты объекта, которые нужно передвинуть (индексы начинаются с нуля)
+        int x = this.getCoordinate().getX();
+        int y = this.getCoordinate().getY();
+
+
+        Coordinate newCoordinate = new Coordinate(x, y);
+
+        switch (direction) {   // определяем, в каком направлении нужно двигаться по массиву
+            case UP: {
+                super.setImageIcon(getIconUp());
+                newCoordinate.setXY(x, y - 1);
+                break;
+            }
+            case DOWN: {
+                super.setImageIcon(getIconDown());
+                newCoordinate.setXY(x, y + 1);
+                break;
+            }
+            case LEFT: {
+                super.setImageIcon(getIconLeft());
+                newCoordinate.setXY(x - 1, y);
+                break;
+            }
+            case RIGHT: {
+                super.setImageIcon(getIconRight());
+                newCoordinate.setXY(x + 1, y);
+                break;
+            }
+        }
+
+        setCoordinate(newCoordinate);
+        
     }
 
     public ImageIcon getIconUp() {

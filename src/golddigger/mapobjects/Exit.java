@@ -14,7 +14,7 @@ import golddigger.abstracts.AbsGameObject;
  * @author alexkurocha
  */
 public class Exit extends AbsGameObject {
-    private final String imagePath = "/golddigger/images/exit.png";
+    private final String imagePath = "/golddigger/images/door_exit.png";
 
     public Exit(Coordinate coordinate) {
         super.setCoordinate(coordinate);

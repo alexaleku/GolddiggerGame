@@ -10,7 +10,7 @@ package golddigger.abstracts;
  *
  * @author alexkurocha
  */
-public enum EnMovingDiraction {
+public enum EnMovingDirection {
     UP,
     DOWN,
     LEFT,

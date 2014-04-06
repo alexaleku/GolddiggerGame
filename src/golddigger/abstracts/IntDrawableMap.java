@@ -6,13 +6,16 @@
 
 package golddigger.abstracts;
 
-import golddigger.abstracts.EnMovingDirection;
+import java.awt.Component;
 
 /**
  *
  * @author alexkurocha
  */
-public interface IntMovingObject extends IntStaticObject {
-    void move(EnMovingDirection derection);
+public interface IntDrawableMap {
+    boolean drawMap();
+    Component getMap();
+
+    public AbsGameMap getGameMap();
     
 }

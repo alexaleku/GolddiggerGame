@@ -6,15 +6,23 @@
 
 package golddigger.gui;
 
+import golddigger.abstracts.EnMapLoaderType;
+import golddigger.abstracts.IntDrawableMap;
+import golddigger.maps.JTableGameMap;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author alexkurocha
  */
 public class MainFrame extends javax.swing.JFrame {
+    private String mapLocationSource = "game.map";
     
+    private GameFrame gameFrame;
     private final FrameStat frameStat = new FrameStat();;
     private final FrameSavedGames frameLoadGame = new FrameSavedGames();
     private final GameSettings frameSettings = new GameSettings();
+    private final IntDrawableMap jTableGameMap = new JTableGameMap(EnMapLoaderType.FS, mapLocationSource);
     /**
      * Creates new form NewJFrame
      */
@@ -155,7 +163,10 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        GameFrame gameFrame = new GameFrame();
+        if (gameFrame == null) {
+          gameFrame = new GameFrame();
+        }
+        gameFrame.setMap(jTableGameMap);
         gameFrame.showFrame(this);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -202,8 +213,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+     java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainFrame().setVisible(true);
             }

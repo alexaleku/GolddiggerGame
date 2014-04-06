@@ -31,12 +31,12 @@ public class Coordinate {
         this.x = x;
     }
 
-    public void setY(int x, int y) {
+    public void setXY(int x, int y) {
         this.x = x;
         this.y = y;
     }
     
-    public void setXY(int y) {
+    public void setY(int y) {
         this.y = y;
     }
 

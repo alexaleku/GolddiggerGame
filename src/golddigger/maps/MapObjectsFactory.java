@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package golddigger.maps;
 
 import golddigger.mapobjects.Golddigger;
@@ -21,37 +20,45 @@ import golddigger.mapobjects.Coordinate;
  * @author alexkurocha
  */
 public class MapObjectsFactory {
+
     private static MapObjectsFactory instance;
-    
+
     public static MapObjectsFactory getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new MapObjectsFactory();
         }
         return instance;
-    
+
     }
-    
+
     private MapObjectsFactory() {
     }
-    
+
     public AbsGameObject getMapObject(EnGameObjectType gameObjectType, Coordinate coordinate) {
-        
+
         AbsGameObject absGO = null;
-        switch(gameObjectType) {
-                case EXIT: absGO = new Exit(coordinate);
-                    break;
-                case MONSTER: absGO = new Monster(coordinate);
-                    break;
-                case TREASURE: absGO = new Treasure(coordinate);
-                    break;
-                case WALL: absGO = new Wall(coordinate);
-                    break;
-                case GOLDDIGGER: absGO = new Golddigger(coordinate);
-                    break;
-                case NOTHING: absGO = new Nothing(coordinate);
-                    break;
-                                }
+        switch (gameObjectType) {
+            case EXIT:
+                absGO = new Exit(coordinate);
+                break;
+            case MONSTER:
+                absGO = new Monster(coordinate);
+                break;
+            case TREASURE:
+                absGO = new Treasure(coordinate);
+                break;
+            case WALL:
+                absGO = new Wall(coordinate);
+                break;
+            case GOLDDIGGER:
+                absGO = new Golddigger(coordinate);
+                break;
+            case NOTHING:
+                absGO = new Nothing(coordinate);
+                break;
+            default:
+                throw new IllegalArgumentException("Can't create object type: " + gameObjectType);
+        }
         return absGO;
     }
 }
-

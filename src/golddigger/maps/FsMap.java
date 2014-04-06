@@ -11,7 +11,6 @@ import golddigger.abstracts.EnGameObjectType;
 import golddigger.mapobjects.Coordinate;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -47,20 +46,22 @@ public class FsMap extends AbsGameMap {
             setTimeLimit(Integer.valueOf(mapInfo[1]));
 
             setWidth(Integer.valueOf(mapInfo[2]));
-            setHeight(Integer.valueOf(mapInfo[2]));
+            setHeight(Integer.valueOf(mapInfo[3]));
 
             int x = 0;
-            int y = 0;
 
-            while ((line = br.readLine()) != null) {
+            for (int y = 0; y<getHeight(); y++) {
+                line = br.readLine();
+                if(line != null) {
                 x = 0;
                 for (String item : line.trim().split(csvSplitBy)) {
                     createMapObject(x, y, item);
-                    y++;
+                    x++;
 
                 }
-                x++;
+                }
             }
+            
             if (!isMapValid()) {
                 throw new Exception("Map is not valid");
             }
