@@ -10,6 +10,7 @@ import golddigger.abstracts.AbsMovingObject;
 import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.EnMovingDirection;
 import golddigger.abstracts.IntDrawableMap;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -18,14 +19,14 @@ import java.awt.event.KeyListener;
  *
  * @author alexkurocha
  */
-public class GameFrame extends BaseForChilds {
+public class FrameGame extends BaseForChilds {
 
     private IntDrawableMap drawableMap;
 
     /**
      * Creates new form GameFrame
      */
-    public GameFrame() {
+    public FrameGame() {
         initComponents();
     }
 

@@ -18,7 +18,7 @@ import javax.swing.SwingUtilities;
 public class MainFrame extends javax.swing.JFrame {
     private String mapLocationSource = "game.map";
     
-    private GameFrame gameFrame;
+    private FrameGame gameFrame;
     private final FrameStat frameStat = new FrameStat();;
     private final FrameSavedGames frameLoadGame = new FrameSavedGames();
     private final GameSettings frameSettings = new GameSettings();
@@ -164,7 +164,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (gameFrame == null) {
-          gameFrame = new GameFrame();
+          gameFrame = new FrameGame();
         }
         gameFrame.setMap(jTableGameMap);
         gameFrame.showFrame(this);
