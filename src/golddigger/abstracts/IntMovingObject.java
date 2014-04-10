@@ -13,6 +13,6 @@ import golddigger.abstracts.EnMovingDirection;
  * @author alexkurocha
  */
 public interface IntMovingObject extends IntStaticObject {
-    void move(EnMovingDirection derection);
+    void move(AbsGameMap gameMap, EnMovingDirection derection);
     
 }

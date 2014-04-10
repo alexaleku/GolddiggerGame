@@ -8,6 +8,7 @@ package golddigger.gui;
 
 import golddigger.abstracts.EnMapLoaderType;
 import golddigger.abstracts.IntDrawableMap;
+import golddigger.maps.GameCollection;
 import golddigger.maps.JTableGameMap;
 import javax.swing.SwingUtilities;
 
@@ -19,10 +20,10 @@ public class MainFrame extends javax.swing.JFrame {
     private String mapLocationSource = "game.map";
     
     private FrameGame gameFrame;
-    private final FrameStat frameStat = new FrameStat();;
-    private final FrameSavedGames frameLoadGame = new FrameSavedGames();
-    private final GameSettings frameSettings = new GameSettings();
-    private final IntDrawableMap jTableGameMap = new JTableGameMap(EnMapLoaderType.FS, mapLocationSource);
+    private final BaseForChilds frameStat = new FrameStat();;
+    private final BaseForChilds frameLoadGame = new FrameSavedGames();
+    private final BaseForChilds frameSettings = new GameSettings();
+    private final IntDrawableMap jTableGameMap = new JTableGameMap(EnMapLoaderType.FS, mapLocationSource, new GameCollection());
     /**
      * Creates new form NewJFrame
      */

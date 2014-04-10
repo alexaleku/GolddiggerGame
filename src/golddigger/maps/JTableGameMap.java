@@ -29,7 +29,7 @@ public class JTableGameMap implements IntDrawableMap {
     private AbsGameObject[][] mapObjects;
     private String[] columnNames;
 
-    public JTableGameMap(EnMapLoaderType mapLoaderType, String mapLocationSource) {
+    public JTableGameMap(EnMapLoaderType mapLoaderType, String mapLocationSource, GameCollection gameCollection) {
         jTableMap.setEnabled(false);
         jTableMap.setSize(new java.awt.Dimension(300, 312));
         jTableMap.setRowHeight(26);
@@ -40,7 +40,7 @@ public class JTableGameMap implements IntDrawableMap {
         jTableMap.setUpdateSelectionOnSort(false);
         jTableMap.setVerifyInputWhenFocusTarget(false);
 
-        gameMap = MapFactory.getInstance().getMapLoader(mapLoaderType);
+        gameMap = MapFactory.getInstance().getMapLoader(mapLoaderType, gameCollection);
         gameMap.loadMap(mapLocationSource);
 
     }
@@ -81,7 +81,7 @@ public class JTableGameMap implements IntDrawableMap {
     private void updateObjectsArray() {
         mapObjects = new AbsGameObject[gameMap.getHeight()][gameMap.getWidth()];
         fillMapWithNothingObjects(gameMap.getHeight(), gameMap.getWidth());
-        for (AbsGameObject absGameObject : gameMap.getGameObjects()) {
+        for (AbsGameObject absGameObject : gameMap.getGameCollection().getGameObjects()) {
 
             if (absGameObject.getType() != EnGameObjectType.NOTHING) {
                 int y = absGameObject.getCoordinate().getY();
@@ -89,7 +89,7 @@ public class JTableGameMap implements IntDrawableMap {
                 if (mapObjects[y][x].getType() != EnGameObjectType.NOTHING || // если в этих координатах уже есть какой то объект, отличный от пустоты и стены
                         mapObjects[y][x].getType() != EnGameObjectType.WALL) {
                     AbsGameObject tmpObj = mapObjects[y][x];
-                    mapObjects[y][x] = gameMap.getPriorityObject(tmpObj, absGameObject);
+                    mapObjects[y][x] = gameMap.getGameCollection().getPriorityObject(tmpObj, absGameObject);
                 } else {
                     mapObjects[y][x] = absGameObject;// проставить объект на карте согласно его координатам
                 }

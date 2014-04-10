@@ -26,12 +26,12 @@ class MapFactory {
         return instance;
     }
     
-    public AbsGameMap getMapLoader(EnMapLoaderType type) {
+    public AbsGameMap getMapLoader(EnMapLoaderType type, GameCollection gameCollection) {
         AbsGameMap absGameMap = null;
         
         switch(type) {
             case FS: {
-            absGameMap = new FsMap();
+            absGameMap = new FsMap(gameCollection);
                 break;
             }
             case DB: {

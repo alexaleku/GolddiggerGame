@@ -7,11 +7,14 @@
 package golddigger.abstracts;
 
 import golddigger.mapobjects.Coordinate;
+import golddigger.maps.GameCollection;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,19 +28,27 @@ public abstract class AbsGameMap implements IntGameMap, Serializable {
     
     private boolean exitExist;
     private boolean characterExist;
-    
-    private HashMap<Coordinate, AbsGameObject> gameObjects = new HashMap<>();
-    private EnumMap<EnGameObjectType, ArrayList<AbsGameObject>> byTypeGameObjects = new EnumMap<>(EnGameObjectType.class);
-    
-    public AbsGameObject getPriorityObject(AbsGameObject obj1, AbsGameObject obj2) {
-        return  (obj1.getType().getPriority() > obj2.getType().getPriority()) ? obj1 : obj2;
-        
+    private GameCollection gameCollection;
+
+    public AbsGameMap(GameCollection gameCollection) {
+        this.gameCollection = gameCollection;
     }
+
+   public GameCollection getGameCollection() {
+        if (gameCollection == null) {
+            try {
+                throw new Exception("Game collection not initialized!");
+            } catch (Exception ex) {
+                Logger.getLogger(AbsGameMap.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return gameCollection;
+    }
+    
     
     public boolean isMapValid() {
         return exitExist && characterExist;
     }
-
     
     @Override
     public int getHeight() {
@@ -71,18 +82,6 @@ public abstract class AbsGameMap implements IntGameMap, Serializable {
         this.height = height;
     }
     
-    public AbsGameObject getObjByCoord(Coordinate coordinate) {
-        return gameObjects.get(coordinate);
-    }
-    
-    public AbsGameObject getObjByCoord(int x, int y) {
-        return gameObjects.get(new Coordinate(x, y));
-    }
-
-    public Collection<AbsGameObject> getGameObjects() {
-        return gameObjects.values();
-    }
-    
     public String getMapName() {
         return mapName;
     }
@@ -106,18 +105,4 @@ public abstract class AbsGameMap implements IntGameMap, Serializable {
     public void setCharacterExist(boolean characterExist) {
         this.characterExist = characterExist;
     }
-    public ArrayList<AbsGameObject> getObjectsByType(EnGameObjectType type) {
-        return byTypeGameObjects.get(type);
-    }
-    
-    public void addObjectsToCollections(AbsGameObject absGameObject) {
-        gameObjects.put(absGameObject.getCoordinate(), absGameObject);
-        if(byTypeGameObjects.get(absGameObject.getType()) == null) {
-            ArrayList<AbsGameObject> arrayList = new ArrayList<AbsGameObject>();
-            byTypeGameObjects.put(absGameObject.getType(), arrayList);
-        }
-            byTypeGameObjects.get(absGameObject.getType()).add(absGameObject);
-        
-    }
-    
 }

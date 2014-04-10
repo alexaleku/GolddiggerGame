@@ -66,8 +66,8 @@ public class FrameGame extends BaseForChilds {
         jMenuItem3 = new javax.swing.JMenuItem();
 
         addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                formKeyReleased(evt);
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
             }
         });
 
@@ -295,10 +295,28 @@ public class FrameGame extends BaseForChilds {
         moveObject(EnMovingDirection.LEFT, EnGameObjectType.GOLDDIGGER);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-                moveObject(EnMovingDirection.LEFT, EnGameObjectType.GOLDDIGGER);        // TODO add your handling code here:
-// TODO add your handling code here:
-    }//GEN-LAST:event_formKeyReleased
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+          int keyCode = evt.getKeyCode();
+          System.out.println("keyCode " + keyCode);
+        switch (keyCode) {
+            case KeyEvent.VK_LEFT: {
+                moveObject(EnMovingDirection.LEFT, EnGameObjectType.GOLDDIGGER);
+                break;
+            }
+            case KeyEvent.VK_RIGHT: {
+                moveObject(EnMovingDirection.RIGHT, EnGameObjectType.GOLDDIGGER);
+                break;
+            }
+            case KeyEvent.VK_UP: {
+                moveObject(EnMovingDirection.UP, EnGameObjectType.GOLDDIGGER);
+                break;
+            }
+            case KeyEvent.VK_DOWN: {
+                moveObject(EnMovingDirection.DOWN, EnGameObjectType.GOLDDIGGER);
+                break;
+            }
+        }
+    }//GEN-LAST:event_formKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -324,10 +342,10 @@ public class FrameGame extends BaseForChilds {
 
     private void moveObject(EnMovingDirection enMovingDirection, EnGameObjectType enGameObjectType) {
         System.out.println("Action !!!");
-        AbsGameObject gameObject = drawableMap.getGameMap().getObjectsByType(enGameObjectType).get(0);
+        AbsGameObject gameObject = drawableMap.getGameMap().getGameCollection().getObjectsByType(enGameObjectType).get(0);
 
         if (gameObject instanceof AbsMovingObject) {// дорогостоящая операция
-            ((AbsMovingObject) gameObject).move(enMovingDirection);
+            ((AbsMovingObject) gameObject).move(drawableMap.getGameMap(), enMovingDirection);
             drawableMap.drawMap();
         }
     }

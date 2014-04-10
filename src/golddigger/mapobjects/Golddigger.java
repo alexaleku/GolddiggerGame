@@ -3,17 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package golddigger.mapobjects;
 
 import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.AbsMovingObject;
+import golddigger.abstracts.EnMovingDirection;
 
 /**
  *
  * @author alexkurocha
  */
 public class Golddigger extends AbsMovingObject {
+
     private final String iconPathUp = "/golddigger/images/Iron_Man_up.png";
     private final String iconPathDown = "/golddigger/images/Iron_Man_down.png";
     private final String iconPathRight = "/golddigger/images/Iron_Man_right.png";
@@ -26,12 +27,6 @@ public class Golddigger extends AbsMovingObject {
     public Golddigger(Coordinate coordinate) {
         super.setCoordinate(coordinate);
         super.setImageIcon(getImageIcon(imagePath));
-        
-       super.setIconUp(getImageIcon(iconPathUp));
-        super.setIconDown(getImageIcon(iconPathDown));
-        super.setIconRight(getImageIcon(iconPathRight));
-        super.setIconLeft(getImageIcon(iconPathLeft));
-
         super.setType(EnGameObjectType.GOLDDIGGER);
     }
 
@@ -50,6 +45,27 @@ public class Golddigger extends AbsMovingObject {
     public void setTurnsNumber(int turnsNumber) {
         this.turnsNumber = turnsNumber;
     }
-    
-    
+
+    @Override
+    protected void changeIcon(EnMovingDirection direction) {
+        switch (direction) {
+            case UP: {
+                super.setImageIcon(getImageIcon(iconPathUp));
+                break;
+            }
+            case DOWN: {
+                super.setImageIcon(getImageIcon(iconPathDown));
+                break;
+            }
+            case LEFT: {
+                super.setImageIcon(getImageIcon(iconPathRight));
+                break;
+            }
+            case RIGHT: {
+                super.setImageIcon(getImageIcon(iconPathLeft));
+                break;
+            }
+        }
+    }
+
 }

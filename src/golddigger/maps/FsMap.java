@@ -22,6 +22,10 @@ import java.util.logging.Logger;
  */
 public class FsMap extends AbsGameMap {
 
+    public FsMap(GameCollection gameCollection) {
+        super(gameCollection);
+    }
+
     @Override
     public boolean loadMap(Object source) {
 
@@ -85,7 +89,7 @@ public class FsMap extends AbsGameMap {
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "x = " + i + "y = " + j + "name = " + objectCode);
         EnGameObjectType gameObjectType = EnGameObjectType.valueOf(objectCode.toUpperCase());
         AbsGameObject absGameObject = MapObjectsFactory.getInstance().getMapObject(gameObjectType, new Coordinate(i, j));
-        addObjectsToCollections(absGameObject);
+        getGameCollection().addObjectsToCollections(absGameObject);
 
         if (absGameObject.getType() == EnGameObjectType.EXIT) {
             setExitExist(true);
