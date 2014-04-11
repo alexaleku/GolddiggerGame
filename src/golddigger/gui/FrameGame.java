@@ -7,6 +7,7 @@ package golddigger.gui;
 
 import golddigger.abstracts.AbsGameObject;
 import golddigger.abstracts.AbsMovingObject;
+import golddigger.abstracts.EnActionResult;
 import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.EnMovingDirection;
 import golddigger.abstracts.IntDrawableMap;
@@ -342,12 +343,8 @@ public class FrameGame extends BaseForChilds {
 
     private void moveObject(EnMovingDirection enMovingDirection, EnGameObjectType enGameObjectType) {
         System.out.println("Action !!!");
-        AbsGameObject gameObject = drawableMap.getGameMap().getGameCollection().getObjectsByType(enGameObjectType).get(0);
-
-        if (gameObject instanceof AbsMovingObject) {// дорогостоящая операция
-            ((AbsMovingObject) gameObject).move(drawableMap.getGameMap(), enMovingDirection);
-            drawableMap.drawMap();
-        }
+        drawableMap.getGameMap().move(enMovingDirection, enGameObjectType);
+        drawableMap.drawMap();
     }
 
 //    @Override

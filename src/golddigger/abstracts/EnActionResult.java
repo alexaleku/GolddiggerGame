@@ -6,13 +6,14 @@
 
 package golddigger.abstracts;
 
-import golddigger.abstracts.EnMovingDirection;
-
 /**
  *
  * @author alexkurocha
  */
-public interface IntMovingObject extends IntStaticObject {
-    EnActionResult moveToObject(EnMovingDirection derection, AbsGameObject absGameObject);
-    
-}
+public enum EnActionResult {
+    WIN,
+    DIE,
+    NO_ACTION,
+    MOVE,
+    COLLECT_TREASURE
+    }

@@ -5,6 +5,7 @@
  */
 package golddigger.mapobjects;
 
+import golddigger.abstracts.AbsGameMap;
 import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.AbsMovingObject;
 import golddigger.abstracts.EnMovingDirection;
@@ -47,4 +48,5 @@ public class Monster extends AbsMovingObject {
             }
         }
     }
+
 }

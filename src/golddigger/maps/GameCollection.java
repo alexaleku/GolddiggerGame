@@ -6,6 +6,8 @@
 package golddigger.maps;
 
 import golddigger.abstracts.AbsGameObject;
+import golddigger.abstracts.AbsMovingObject;
+import golddigger.abstracts.EnActionResult;
 import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.EnMovingDirection;
 import golddigger.abstracts.IntGameCollection;
@@ -15,6 +17,7 @@ import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -61,9 +64,73 @@ public class GameCollection implements IntGameCollection {
 
     }
 
-    @Override
     public void moveObject(EnMovingDirection direction, EnGameObjectType gameObjectType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        for (AbsGameObject  absGameObject: getObjectsByType(gameObjectType)) {
+            if (absGameObject instanceof AbsMovingObject) {
+                AbsMovingObject absMovingObject = (AbsMovingObject) absGameObject;
+                Coordinate newCoordinate = getMoveTargetCoord(absMovingObject.getCoordinate(), direction);
+                AbsGameObject objectInNewCoord = getObjByCoord(newCoordinate);
+                
+                EnActionResult enActionResult = absMovingObject.moveToObject(direction, objectInNewCoord);
+                
+                switch(enActionResult) {
+                    case MOVE:
+                        swapObjects(absMovingObject, objectInNewCoord);
+                }
+            }
+        }
+//            Coordinate coordinate = entry.getKey();
+//            AbsGameObject absGameObject = entry.getValue();
+//            
+//        }
+//        EnActionResult enActionResult;
+//        Coordinate newCoordinate = getMoveTargetCoord(direction);
+//        AbsGameObject objInNewCoord = gameMap.getGameCollection().getObjByCoord(newCoordinate);
+//        if (objInNewCoord.getType() == EnGameObjectType.NOTHING) {
+//            changeIcon(direction);
+//            setCoordinate(newCoordinate);
+//        }
+//        
+//        
     }
+    
+    private Coordinate getMoveTargetCoord(Coordinate oldCoordinate, EnMovingDirection direction) {
+        // берем текущие коордthis.getCoordinate().getXинаты объекта, которые нужно передвинуть (индексы начинаются с нуля)
+        int x = oldCoordinate.getX();
+        int y = oldCoordinate.getY();
+        
+        
+        Coordinate newCoordinate = new Coordinate(x, y);
 
+        switch (direction) {   // определяем, в каком направлении нужно двигаться по массиву
+            case UP: {
+                newCoordinate.setXY(x, y - 1);
+                break;
+            }
+            case DOWN: {
+                newCoordinate.setXY(x, y + 1);
+                break;
+            }
+            case LEFT: {
+                newCoordinate.setXY(x - 1, y);
+                break;
+            }
+            case RIGHT: {
+                newCoordinate.setXY(x + 1, y);
+                break;
+            }
+        }
+        return newCoordinate;
+
+}
+
+    private void swapObjects(AbsGameObject absMovingObject, AbsGameObject objectInNewCoord) {
+        Coordinate tempCoordinate = absMovingObject.getCoordinate();
+        absMovingObject.setCoordinate(objectInNewCoord.getCoordinate());
+        objectInNewCoord.setCoordinate(tempCoordinate);
+        
+        gameObjects.put(absMovingObject.getCoordinate(), absMovingObject);
+        gameObjects.put(objectInNewCoord.getCoordinate(), objectInNewCoord);
+    }
 }
