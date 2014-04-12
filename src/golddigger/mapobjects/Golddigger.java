@@ -5,8 +5,10 @@
  */
 package golddigger.mapobjects;
 
+import golddigger.abstracts.AbsGameObject;
 import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.AbsMovingObject;
+import golddigger.abstracts.EnActionResult;
 import golddigger.abstracts.EnMovingDirection;
 
 /**
@@ -17,8 +19,8 @@ public class Golddigger extends AbsMovingObject {
 
     private final String iconPathUp = "/golddigger/images/Iron_Man_up.png";
     private final String iconPathDown = "/golddigger/images/Iron_Man_down.png";
-    private final String iconPathRight = "/golddigger/images/Iron_Man_right.png";
-    private final String iconPathLeft = "/golddigger/images/Iron_Man_left.png";
+    private final String iconPathRight = "/golddigger/images/Iron_Man_left.png";
+    private final String iconPathLeft = "/golddigger/images/Iron_Man_right.png";
 
     private String imagePath = "/golddigger/images/Iron_Man_down.png";
     private int totalScore = 0;
@@ -67,5 +69,27 @@ public class Golddigger extends AbsMovingObject {
             }
         }
     }
+    
+    @Override
+    public EnActionResult doAction(AbsGameObject objectInNewCoord) {
+           turnsNumber++;
 
+        switch (objectInNewCoord.getType()) {
+
+            case TREASURE: {
+                totalScore += ((Treasure) objectInNewCoord).getScore();
+                return EnActionResult.COLLECT_TREASURE;
+            }
+
+            case MONSTER: {
+                return EnActionResult.DIE;
+            }
+            
+            case EXIT: {
+                return EnActionResult.WIN;
+            }
+        }
+
+        return super.doAction(objectInNewCoord);
+    }
 }

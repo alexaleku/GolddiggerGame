@@ -25,6 +25,6 @@ public interface IntGameCollection {
 
     void addObjectsToCollections(AbsGameObject absGameObject);
     
-    void moveObject(EnMovingDirection direction, EnGameObjectType gameObjectType);
+    EnActionResult moveObject(EnMovingDirection direction, EnGameObjectType gameObjectType);
     
 }

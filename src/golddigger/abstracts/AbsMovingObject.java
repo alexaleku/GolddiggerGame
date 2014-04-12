@@ -26,15 +26,23 @@ public abstract class AbsMovingObject extends AbsGameObject implements IntMoving
     protected abstract void changeIcon(EnMovingDirection direction);
 
     public EnActionResult moveToObject(EnMovingDirection direction, AbsGameObject objectInNewCoord) {
-         changeIcon(direction);
-        if (objectInNewCoord == null) {
+        changeIcon(direction);
+           if (objectInNewCoord == null) {
             return EnActionResult.NO_ACTION;
         }
-        
+        return doAction(objectInNewCoord);
+
+    }
+
+    public EnActionResult doAction(AbsGameObject objectInNewCoord) {
+
+     
         switch (objectInNewCoord.getType()) {
-            case NOTHING:
+            case NOTHING: {
                 return EnActionResult.MOVE;
+            }
         }
+
         return EnActionResult.NO_ACTION;
     }
 }

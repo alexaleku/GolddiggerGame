@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import utils.MessageManager;
 
 /**
  *
@@ -297,8 +298,8 @@ public class FrameGame extends BaseForChilds {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-          int keyCode = evt.getKeyCode();
-          System.out.println("keyCode " + keyCode);
+        int keyCode = evt.getKeyCode();
+        System.out.println("keyCode " + keyCode);
         switch (keyCode) {
             case KeyEvent.VK_LEFT: {
                 moveObject(EnMovingDirection.LEFT, EnGameObjectType.GOLDDIGGER);
@@ -343,7 +344,19 @@ public class FrameGame extends BaseForChilds {
 
     private void moveObject(EnMovingDirection enMovingDirection, EnGameObjectType enGameObjectType) {
         System.out.println("Action !!!");
-        drawableMap.getGameMap().move(enMovingDirection, enGameObjectType);
+        EnActionResult ar = drawableMap.getGameMap().move(enMovingDirection, enGameObjectType);
+        System.out.println("type " + ar);
+
+        switch (ar) {
+            case WIN:
+                showMessage("You WON !!!");
+                break;
+            case DIE:
+                showMessage("You LOSE...");
+                closeFrame();
+                break;
+
+        }
         drawableMap.drawMap();
     }
 
@@ -370,7 +383,6 @@ public class FrameGame extends BaseForChilds {
 //            }
 //        }
 //    }
-
 //    @Override
 //    public void keyPressed(KeyEvent e) {
 //
@@ -388,4 +400,8 @@ public class FrameGame extends BaseForChilds {
 //        }
 //
 //    }
+
+    private void showMessage(String message) {
+        MessageManager.showInformMessage(null, message);
+    }
 }
