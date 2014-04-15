@@ -5,23 +5,20 @@
  */
 package golddigger.gui;
 
-import golddigger.abstracts.AbsGameObject;
-import golddigger.abstracts.AbsMovingObject;
 import golddigger.abstracts.EnActionResult;
 import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.EnMovingDirection;
 import golddigger.abstracts.IntDrawableMap;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
+import golddigger.abstracts.IntMoveResultListener;
+import golddigger.mapobjects.Golddigger;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import utils.MessageManager;
 
 /**
  *
  * @author alexkurocha
  */
-public class FrameGame extends BaseForChilds {
+public class FrameGame extends BaseForChilds implements IntMoveResultListener {
 
     private IntDrawableMap drawableMap;
 
@@ -34,6 +31,10 @@ public class FrameGame extends BaseForChilds {
 
     public void setMap(IntDrawableMap drawableMap) {
         this.drawableMap = drawableMap;
+        drawableMap.getGameMap().getGameCollection().addMoveListener(this);
+
+        jLabel4.setText(String.valueOf(drawableMap.getGameMap().getTimeLimit()));
+
         drawableMap.drawMap();
         jPanelMap.removeAll();
         jPanelMap.add(drawableMap.getMap());
@@ -173,9 +174,9 @@ public class FrameGame extends BaseForChilds {
                             .addComponent(jLabel3)
                             .addComponent(jLabel1))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -344,20 +345,13 @@ public class FrameGame extends BaseForChilds {
 
     private void moveObject(EnMovingDirection enMovingDirection, EnGameObjectType enGameObjectType) {
         System.out.println("Action !!!");
-        EnActionResult ar = drawableMap.getGameMap().move(enMovingDirection, enGameObjectType);
-        System.out.println("type " + ar);
+        drawableMap.getGameMap().getGameCollection().moveMonsterRandom();
+        drawableMap.getGameMap().move(enMovingDirection, enGameObjectType);
 
-        switch (ar) {
-            case WIN:
-                showMessage("You WON !!!");
-                break;
-            case DIE:
-                showMessage("You LOSE...");
-                closeFrame();
-                break;
+    }
 
-        }
-        drawableMap.drawMap();
+    public IntDrawableMap getDrawableMap() {
+        return drawableMap;
     }
 
 //    @Override
@@ -400,8 +394,37 @@ public class FrameGame extends BaseForChilds {
 //        }
 //
 //    }
-
     private void showMessage(String message) {
         MessageManager.showInformMessage(null, message);
+    }
+
+    private void gameOver() {
+        showMessage("You LOSE...");
+        closeFrame();
+    }
+
+    @Override
+    public void moveActionPerformed(EnActionResult actionResult, Golddigger golddigger) {
+
+        switch (actionResult) {
+            case MOVE:
+                jLabel4.setText(String.valueOf(drawableMap.getGameMap().getTimeLimit() - golddigger.getTurnsNumber()));
+                if (golddigger.getTurnsNumber() >= drawableMap.getGameMap().getTimeLimit()) {
+                    gameOver();
+                }
+                break;
+            case WIN:
+                showMessage("You WON !!!");
+                break;
+            case DIE:
+                gameOver();
+                break;
+            case COLLECT_TREASURE:
+                jLabel2.setText(String.valueOf(golddigger.getTotalScore()));
+                break;
+
+        }
+        drawableMap.drawMap();
+
     }
 }

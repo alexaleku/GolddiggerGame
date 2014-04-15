@@ -49,7 +49,7 @@ public class Golddigger extends AbsMovingObject {
     }
 
     @Override
-    protected void changeIcon(EnMovingDirection direction) {
+    public void changeIcon(EnMovingDirection direction) {
         switch (direction) {
             case UP: {
                 super.setImageIcon(getImageIcon(iconPathUp));

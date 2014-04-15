@@ -6,8 +6,10 @@
 package golddigger.mapobjects;
 
 import golddigger.abstracts.AbsGameMap;
-import golddigger.abstracts.EnGameObjectType;
+import golddigger.abstracts.AbsGameObject;
 import golddigger.abstracts.AbsMovingObject;
+import golddigger.abstracts.EnActionResult;
+import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.EnMovingDirection;
 
 /**
@@ -28,7 +30,7 @@ public class Monster extends AbsMovingObject {
     }
 
     @Override
-    protected void changeIcon(EnMovingDirection direction) {
+    public void changeIcon(EnMovingDirection direction) {
         switch (direction) {
             case UP: {
                 setImageIcon(getImageIcon(iconPathUp));
@@ -39,7 +41,7 @@ public class Monster extends AbsMovingObject {
                 break;
             }
             case LEFT: {
-                setImageIcon(getImageIcon(iconPathDown));
+                setImageIcon(getImageIcon(iconPathRight));
                 break;
             }
             case RIGHT: {
@@ -48,5 +50,19 @@ public class Monster extends AbsMovingObject {
             }
         }
     }
+    
+    public EnActionResult doAction(AbsGameObject gameObject) {
+        switch(gameObject.getType()) {
+            case TREASURE:
+            case MONSTER:
+                return EnActionResult.NO_ACTION;
+            case GOLDDIGGER:
+                return EnActionResult.DIE;
+        }
+        return super.doAction(gameObject);
+        
+    }
+    
+    
 
 }

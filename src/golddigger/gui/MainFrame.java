@@ -23,7 +23,6 @@ public class MainFrame extends javax.swing.JFrame {
     private final BaseForChilds frameStat = new FrameStat();;
     private final BaseForChilds frameLoadGame = new FrameSavedGames();
     private final BaseForChilds frameSettings = new GameSettings();
-    private final IntDrawableMap jTableGameMap = new JTableGameMap(EnMapLoaderType.FS, mapLocationSource, new GameCollection());
     /**
      * Creates new form NewJFrame
      */
@@ -167,7 +166,7 @@ public class MainFrame extends javax.swing.JFrame {
         if (gameFrame == null) {
           gameFrame = new FrameGame();
         }
-        gameFrame.setMap(jTableGameMap);
+        gameFrame.setMap(new JTableGameMap(EnMapLoaderType.FS, mapLocationSource, new GameCollection()));
         gameFrame.showFrame(this);
     }//GEN-LAST:event_jButton1ActionPerformed
 

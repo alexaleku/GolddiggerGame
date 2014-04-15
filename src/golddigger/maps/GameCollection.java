@@ -12,7 +12,9 @@ import static golddigger.abstracts.EnActionResult.NO_ACTION;
 import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.EnMovingDirection;
 import golddigger.abstracts.IntGameCollection;
+import golddigger.abstracts.IntMoveResultListener;
 import golddigger.mapobjects.Coordinate;
+import golddigger.mapobjects.Golddigger;
 import golddigger.mapobjects.Nothing;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,12 +22,13 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  *
  * @author alexkurocha
  */
-public class GameCollection implements IntGameCollection {
+public class GameCollection extends MoveActionNotifier {
 
     private final HashMap<Coordinate, AbsGameObject> gameObjects = new HashMap<>();
     private final EnumMap<EnGameObjectType, ArrayList<AbsGameObject>> byTypeGameObjects = new EnumMap<>(EnGameObjectType.class);
@@ -66,13 +69,25 @@ public class GameCollection implements IntGameCollection {
 
     }
 
+    public void moveMonsterRandom() {
+        moveObject(null, EnGameObjectType.MONSTER);
+    }
+
     @Override
     public EnActionResult moveObject(EnMovingDirection direction, EnGameObjectType gameObjectType) {
-        EnActionResult enActionResult = NO_ACTION;
+
+        Golddigger golddigger = (Golddigger) getObjectsByType(EnGameObjectType.GOLDDIGGER).get(0);
+
+        EnActionResult enActionResult = null;
 
         for (AbsGameObject absGameObject : getObjectsByType(gameObjectType)) {
             if (absGameObject instanceof AbsMovingObject) {
                 AbsMovingObject absMovingObject = (AbsMovingObject) absGameObject;
+
+                if (direction == null) {
+                    direction = EnMovingDirection.values()[(new Random()).nextInt(3)];
+                }
+
                 Coordinate newCoordinate = getMoveTargetCoord(absMovingObject.getCoordinate(), direction);
                 AbsGameObject objectInNewCoord = getObjByCoord(newCoordinate);
 
@@ -88,6 +103,7 @@ public class GameCollection implements IntGameCollection {
                 }
 
             }
+            notifyListeners(enActionResult, golddigger);
 
         }
 //            Coordinate coordinate = entry.getKey();
@@ -142,5 +158,12 @@ public class GameCollection implements IntGameCollection {
 
         gameObjects.put(absMovingObject.getCoordinate(), absMovingObject);
         gameObjects.put(objectInNewCoord.getCoordinate(), objectInNewCoord);
+    }
+
+    @Override
+    public void notifyListeners(EnActionResult actionResult, Golddigger golddiger) {
+        for (IntMoveResultListener moveResultListener : getListeners()) {
+            moveResultListener.moveActionPerformed(actionResult, golddiger);
+        }
     }
 }

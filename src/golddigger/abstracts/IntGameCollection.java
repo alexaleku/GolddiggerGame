@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author alexkurocha
  */
-public interface IntGameCollection {
+public interface IntGameCollection extends IntMoveResultNotifier {
     
     AbsGameObject getObjByCoord(Coordinate coordinate);
 
