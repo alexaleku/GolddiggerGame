@@ -5,23 +5,20 @@
  */
 package golddigger.maps;
 
+import golddigger.abstracts.IntMonsterMoveAlgorithm;
 import golddigger.abstracts.AbsGameObject;
 import golddigger.abstracts.AbsMovingObject;
 import golddigger.abstracts.EnActionResult;
-import static golddigger.abstracts.EnActionResult.NO_ACTION;
 import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.EnMovingDirection;
-import golddigger.abstracts.IntGameCollection;
 import golddigger.abstracts.IntMoveResultListener;
 import golddigger.mapobjects.Coordinate;
 import golddigger.mapobjects.Golddigger;
 import golddigger.mapobjects.Nothing;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -69,12 +66,12 @@ public class GameCollection extends MoveActionNotifier {
 
     }
 
-    public void moveMonsterRandom() {
-        moveObject(null, EnGameObjectType.MONSTER);
+    public void moveMonster(IntMonsterMoveAlgorithm algorithm) {
+        moveObject(null, EnGameObjectType.MONSTER, algorithm);
     }
 
     @Override
-    public EnActionResult moveObject(EnMovingDirection direction, EnGameObjectType gameObjectType) {
+    public EnActionResult moveObject(EnMovingDirection direction, EnGameObjectType gameObjectType, IntMonsterMoveAlgorithm algorithm) {
 
         Golddigger golddigger = (Golddigger) getObjectsByType(EnGameObjectType.GOLDDIGGER).get(0);
 
@@ -84,11 +81,11 @@ public class GameCollection extends MoveActionNotifier {
             if (absGameObject instanceof AbsMovingObject) {
                 AbsMovingObject absMovingObject = (AbsMovingObject) absGameObject;
 
-                if (direction == null) {
-                    direction = EnMovingDirection.values()[(new Random()).nextInt(3)];
+                if (algorithm != null) {
+                    direction = algorithm.getDirection(absGameObject, golddigger, this);
                 }
 
-                Coordinate newCoordinate = getMoveTargetCoord(absMovingObject.getCoordinate(), direction);
+                Coordinate newCoordinate = absMovingObject.getMoveTargetCoord(absMovingObject.getCoordinate(), direction);
                 AbsGameObject objectInNewCoord = getObjByCoord(newCoordinate);
 
                 enActionResult = absMovingObject.moveToObject(direction, objectInNewCoord);
@@ -120,35 +117,6 @@ public class GameCollection extends MoveActionNotifier {
 //        
 //        
         return enActionResult;
-    }
-
-    private Coordinate getMoveTargetCoord(Coordinate oldCoordinate, EnMovingDirection direction) {
-        // берем текущие коордthis.getCoordinate().getXинаты объекта, которые нужно передвинуть (индексы начинаются с нуля)
-        int x = oldCoordinate.getX();
-        int y = oldCoordinate.getY();
-
-        Coordinate newCoordinate = new Coordinate(x, y);
-
-        switch (direction) {   // определяем, в каком направлении нужно двигаться по массиву
-            case UP: {
-                newCoordinate.setXY(x, y - 1);
-                break;
-            }
-            case DOWN: {
-                newCoordinate.setXY(x, y + 1);
-                break;
-            }
-            case LEFT: {
-                newCoordinate.setXY(x - 1, y);
-                break;
-            }
-            case RIGHT: {
-                newCoordinate.setXY(x + 1, y);
-                break;
-            }
-        }
-        return newCoordinate;
-
     }
 
     private void swapObjects(AbsGameObject absMovingObject, AbsGameObject objectInNewCoord) {

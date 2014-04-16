@@ -5,7 +5,6 @@
  */
 package golddigger.mapobjects;
 
-import golddigger.abstracts.AbsGameMap;
 import golddigger.abstracts.AbsGameObject;
 import golddigger.abstracts.AbsMovingObject;
 import golddigger.abstracts.EnActionResult;
@@ -41,11 +40,11 @@ public class Monster extends AbsMovingObject {
                 break;
             }
             case LEFT: {
-                setImageIcon(getImageIcon(iconPathRight));
+                setImageIcon(getImageIcon(iconPathLeft));
                 break;
             }
             case RIGHT: {
-                setImageIcon(getImageIcon(iconPathLeft));
+                setImageIcon(getImageIcon(iconPathRight));
                 break;
             }
         }

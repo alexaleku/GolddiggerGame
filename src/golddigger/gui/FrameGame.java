@@ -11,6 +11,7 @@ import golddigger.abstracts.EnMovingDirection;
 import golddigger.abstracts.IntDrawableMap;
 import golddigger.abstracts.IntMoveResultListener;
 import golddigger.mapobjects.Golddigger;
+import golddigger.maps.JTableGameMap;
 import java.awt.event.KeyEvent;
 import utils.MessageManager;
 
@@ -38,6 +39,7 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
         drawableMap.drawMap();
         jPanelMap.removeAll();
         jPanelMap.add(drawableMap.getMap());
+        
     }
 
     /**
@@ -345,7 +347,6 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
 
     private void moveObject(EnMovingDirection enMovingDirection, EnGameObjectType enGameObjectType) {
         System.out.println("Action !!!");
-        drawableMap.getGameMap().getGameCollection().moveMonsterRandom();
         drawableMap.getGameMap().move(enMovingDirection, enGameObjectType);
 
     }
@@ -415,6 +416,7 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
                 break;
             case WIN:
                 showMessage("You WON !!!");
+                closeFrame();
                 break;
             case DIE:
                 gameOver();

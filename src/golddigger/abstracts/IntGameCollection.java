@@ -25,6 +25,6 @@ public interface IntGameCollection extends IntMoveResultNotifier {
 
     void addObjectsToCollections(AbsGameObject absGameObject);
     
-    EnActionResult moveObject(EnMovingDirection direction, EnGameObjectType gameObjectType);
+    EnActionResult moveObject(EnMovingDirection direction, EnGameObjectType gameObjectType, IntMonsterMoveAlgorithm algorithm);
     
 }

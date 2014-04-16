@@ -35,14 +35,39 @@ public abstract class AbsMovingObject extends AbsGameObject implements IntMoving
     }
 
     public EnActionResult doAction(AbsGameObject objectInNewCoord) {
-
-     
         switch (objectInNewCoord.getType()) {
             case NOTHING: {
                 return EnActionResult.MOVE;
             }
         }
-
         return EnActionResult.NO_ACTION;
+    }
+    
+      public Coordinate getMoveTargetCoord(Coordinate oldCoordinate, EnMovingDirection direction) {
+        // берем текущие коордthis.getCoordinate().getXинаты объекта, которые нужно передвинуть (индексы начинаются с нуля)
+        int x = oldCoordinate.getX();
+        int y = oldCoordinate.getY();
+
+        Coordinate newCoordinate = new Coordinate(x, y);
+
+        switch (direction) {   // определяем, в каком направлении нужно двигаться по массиву
+            case UP: {
+                newCoordinate.setXY(x, y - 1);
+                break;
+            }
+            case DOWN: {
+                newCoordinate.setXY(x, y + 1);
+                break;
+            }
+            case LEFT: {
+                newCoordinate.setXY(x - 1, y);
+                break;
+            }
+            case RIGHT: {
+                newCoordinate.setXY(x + 1, y);
+                break;
+            }
+        }
+        return newCoordinate;
     }
 }

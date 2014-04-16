@@ -7,14 +7,19 @@ package golddigger.maps;
 
 import golddigger.abstracts.AbsGameMap;
 import golddigger.abstracts.AbsGameObject;
+import golddigger.abstracts.EnActionResult;
 import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.EnMapLoaderType;
 import golddigger.abstracts.IntDrawableMap;
+import golddigger.abstracts.IntMoveResultListener;
 import golddigger.mapobjects.Coordinate;
+import golddigger.mapobjects.Golddigger;
 import golddigger.mapobjects.Nothing;
 import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JTable;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -42,6 +47,8 @@ public class JTableGameMap implements IntDrawableMap {
 
         gameMap = MapFactory.getInstance().getMapLoader(mapLoaderType, gameCollection);
         gameMap.loadMap(mapLocationSource);
+        
+        getGameMap().getGameCollection().addMoveListener(this.moveTimer);
 
     }
 
@@ -108,6 +115,44 @@ public class JTableGameMap implements IntDrawableMap {
 
     public AbsGameMap getGameMap() {
         return gameMap;
+    }
+
+    private MoveMonsterTimer moveTimer = new MoveMonsterTimer();
+    
+    public class MoveMonsterTimer implements ActionListener, IntMoveResultListener {
+        
+        private Timer timer;
+        private final static int MOVE_DELAY = 500;
+        private final static int INITIAL_DELAY = 500;
+        
+        public MoveMonsterTimer() {
+        timer = new Timer(MOVE_DELAY, this);
+        timer.setInitialDelay(INITIAL_DELAY);
+        timer.start();
+        
+        }
+        
+
+        public void startTimer() {
+            timer.start();
+        }
+
+        public void stopTimer() {
+            timer.stop();
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            getGameMap().getGameCollection().moveMonster(new MonsterMovingRandom());
+        }
+
+        @Override
+        public void moveActionPerformed(EnActionResult actionResult, Golddigger golddigger) {
+            if (actionResult == EnActionResult.DIE || actionResult == EnActionResult.WIN) {
+                stopTimer();
+            }
+        }
+        
     }
 
 }

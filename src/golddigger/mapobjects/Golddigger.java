@@ -86,6 +86,7 @@ public class Golddigger extends AbsMovingObject {
             }
             
             case EXIT: {
+                totalScore *= 2;
                 return EnActionResult.WIN;
             }
         }

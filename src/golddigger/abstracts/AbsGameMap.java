@@ -6,13 +6,8 @@
 
 package golddigger.abstracts;
 
-import golddigger.mapobjects.Coordinate;
 import golddigger.maps.GameCollection;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -107,6 +102,6 @@ public abstract class AbsGameMap implements IntGameMap, Serializable {
     }
 
     public EnActionResult move(EnMovingDirection enMovingDirection, EnGameObjectType enGameObjectType) {
-        return getGameCollection().moveObject(enMovingDirection, enGameObjectType);
+        return getGameCollection().moveObject(enMovingDirection, enGameObjectType, null);
     }
 }
