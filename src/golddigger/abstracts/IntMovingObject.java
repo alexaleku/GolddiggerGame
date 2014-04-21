@@ -14,5 +14,5 @@ import golddigger.abstracts.EnMovingDirection;
  */
 public interface IntMovingObject extends IntStaticObject {
     EnActionResult moveToObject(EnMovingDirection derection, AbsGameObject absGameObject);
-    
+    int getStep();
 }

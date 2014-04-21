@@ -15,11 +15,11 @@ import golddigger.abstracts.IntMoveResultListener;
 import golddigger.mapobjects.Coordinate;
 import golddigger.mapobjects.Golddigger;
 import golddigger.mapobjects.Nothing;
+import golddigger.mapobjects.Wall;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 /**
  *
@@ -32,7 +32,11 @@ public class GameCollection extends MoveActionNotifier {
 
     @Override
     public AbsGameObject getObjByCoord(Coordinate coordinate) {
-        return gameObjects.get(coordinate);
+        AbsGameObject ago = gameObjects.get(coordinate);
+        if (ago == null) {
+            ago = new Wall(coordinate);
+        }
+        return ago;
     }
 
     public AbsGameObject getPriorityObject(AbsGameObject obj1, AbsGameObject obj2) {
@@ -66,12 +70,17 @@ public class GameCollection extends MoveActionNotifier {
 
     }
 
-    public void moveMonster(IntMonsterMoveAlgorithm algorithm) {
-        moveObject(null, EnGameObjectType.MONSTER, algorithm);
+    @Override
+    public void moveObject(IntMonsterMoveAlgorithm algorithm, EnGameObjectType gameObjectType) {
+        GameCollection.this.doMoveAction(null, gameObjectType, algorithm);
     }
 
     @Override
-    public EnActionResult moveObject(EnMovingDirection direction, EnGameObjectType gameObjectType, IntMonsterMoveAlgorithm algorithm) {
+    public void moveObject(EnMovingDirection direction, EnGameObjectType type) {
+        GameCollection.this.doMoveAction(direction, type, null);
+    }
+
+    private EnActionResult doMoveAction(EnMovingDirection direction, EnGameObjectType gameObjectType, IntMonsterMoveAlgorithm algorithm) {
 
         Golddigger golddigger = (Golddigger) getObjectsByType(EnGameObjectType.GOLDDIGGER).get(0);
 
@@ -82,11 +91,15 @@ public class GameCollection extends MoveActionNotifier {
                 AbsMovingObject absMovingObject = (AbsMovingObject) absGameObject;
 
                 if (algorithm != null) {
-                    direction = algorithm.getDirection(absGameObject, golddigger, this);
+                    direction = algorithm.getDirection(absMovingObject, golddigger, this);
                 }
 
-                Coordinate newCoordinate = absMovingObject.getMoveTargetCoord(absMovingObject.getCoordinate(), direction);
+                // Checking what object is located in new coordinates before moving the object
+                Coordinate newCoordinate = absMovingObject.getMoveTargetCoord(direction);
                 AbsGameObject objectInNewCoord = getObjByCoord(newCoordinate);
+                System.out.println("gameObjectType " + gameObjectType);
+                System.out.println("direction " + direction + ";  ObjectInNewCoord " + objectInNewCoord);
+                
 
                 enActionResult = absMovingObject.moveToObject(direction, objectInNewCoord);
 

@@ -100,8 +100,4 @@ public abstract class AbsGameMap implements IntGameMap, Serializable {
     public void setCharacterExist(boolean characterExist) {
         this.characterExist = characterExist;
     }
-
-    public EnActionResult move(EnMovingDirection enMovingDirection, EnGameObjectType enGameObjectType) {
-        return getGameCollection().moveObject(enMovingDirection, enGameObjectType, null);
-    }
 }

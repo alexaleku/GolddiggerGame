@@ -73,6 +73,8 @@ public class Golddigger extends AbsMovingObject {
     @Override
     public EnActionResult doAction(AbsGameObject objectInNewCoord) {
            turnsNumber++;
+           
+           System.out.println(objectInNewCoord);
 
         switch (objectInNewCoord.getType()) {
 

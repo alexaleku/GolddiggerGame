@@ -6,9 +6,6 @@
 
 package golddigger.abstracts;
 
-import golddigger.abstracts.AbsGameObject;
-import golddigger.abstracts.EnMovingDirection;
-import golddigger.mapobjects.Golddigger;
 import golddigger.maps.GameCollection;
 
 /**
@@ -16,5 +13,5 @@ import golddigger.maps.GameCollection;
  * @author alexkurocha
  */
 public interface IntMonsterMoveAlgorithm {
-    EnMovingDirection getDirection(AbsGameObject absGameObjectMonster, AbsGameObject absGameObjectGolddigger, GameCollection gc);
+    EnMovingDirection getDirection(AbsMovingObject absMovingObject, AbsGameObject targetObject, GameCollection gc);
 }

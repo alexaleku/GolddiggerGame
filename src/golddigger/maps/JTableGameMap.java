@@ -129,7 +129,6 @@ public class JTableGameMap implements IntDrawableMap {
         timer = new Timer(MOVE_DELAY, this);
         timer.setInitialDelay(INITIAL_DELAY);
         timer.start();
-        
         }
         
 
@@ -143,7 +142,7 @@ public class JTableGameMap implements IntDrawableMap {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            getGameMap().getGameCollection().moveMonster(new MonsterMovingRandom());
+            getGameMap().getGameCollection().moveObject(new MonsterMovingSlow(), EnGameObjectType.MONSTER);
         }
 
         @Override

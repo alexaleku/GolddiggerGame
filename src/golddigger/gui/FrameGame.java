@@ -347,7 +347,7 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
 
     private void moveObject(EnMovingDirection enMovingDirection, EnGameObjectType enGameObjectType) {
         System.out.println("Action !!!");
-        drawableMap.getGameMap().move(enMovingDirection, enGameObjectType);
+        drawableMap.getGameMap().getGameCollection().moveObject(enMovingDirection, enGameObjectType);
 
     }
 
@@ -400,9 +400,12 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
     }
 
     private void gameOver() {
-        showMessage("You LOSE...");
+        showMessage(DIE_MESSAGE);
         closeFrame();
     }
+    
+    private static final String DIE_MESSAGE = "You LOSE...";
+    private static final String WIN_MESSAGE = "You WON !!!";
 
     @Override
     public void moveActionPerformed(EnActionResult actionResult, Golddigger golddigger) {
@@ -415,7 +418,7 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
                 }
                 break;
             case WIN:
-                showMessage("You WON !!!");
+                showMessage(WIN_MESSAGE);
                 closeFrame();
                 break;
             case DIE:
