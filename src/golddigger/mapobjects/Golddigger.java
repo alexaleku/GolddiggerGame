@@ -10,12 +10,13 @@ import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.AbsMovingObject;
 import golddigger.abstracts.EnActionResult;
 import golddigger.abstracts.EnMovingDirection;
+import golddigger.abstracts.IntSoundObject;
 
 /**
  *
  * @author alexkurocha
  */
-public class Golddigger extends AbsMovingObject {
+public class Golddigger extends AbsMovingObject implements IntSoundObject {
 
     private final String iconPathUp = "/golddigger/images/Iron_Man_up.png";
     private final String iconPathDown = "/golddigger/images/Iron_Man_down.png";
@@ -69,12 +70,12 @@ public class Golddigger extends AbsMovingObject {
             }
         }
     }
-    
+
     @Override
     public EnActionResult doAction(AbsGameObject objectInNewCoord) {
-           turnsNumber++;
-           
-           System.out.println(objectInNewCoord);
+        turnsNumber++;
+
+        System.out.println(objectInNewCoord);
 
         switch (objectInNewCoord.getType()) {
 
@@ -86,7 +87,7 @@ public class Golddigger extends AbsMovingObject {
             case MONSTER: {
                 return EnActionResult.DIE;
             }
-            
+
             case EXIT: {
                 totalScore *= 2;
                 return EnActionResult.WIN;
@@ -94,5 +95,20 @@ public class Golddigger extends AbsMovingObject {
         }
 
         return super.doAction(objectInNewCoord);
+    }
+
+    @Override
+    public String getSoundPath(EnActionResult actionResult) {
+        switch (actionResult) {
+
+            case WIN: {
+                return "WIN SOUND";
+            }
+
+            case DIE: {
+                return "DIE SOUND";
+            }
+        }
+        return null;
     }
 }

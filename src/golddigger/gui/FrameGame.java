@@ -5,13 +5,13 @@
  */
 package golddigger.gui;
 
+import golddigger.abstracts.AbsMovingObject;
 import golddigger.abstracts.EnActionResult;
 import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.EnMovingDirection;
 import golddigger.abstracts.IntDrawableMap;
 import golddigger.abstracts.IntMoveResultListener;
 import golddigger.mapobjects.Golddigger;
-import golddigger.maps.JTableGameMap;
 import java.awt.event.KeyEvent;
 import utils.MessageManager;
 
@@ -39,7 +39,7 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
         drawableMap.drawMap();
         jPanelMap.removeAll();
         jPanelMap.add(drawableMap.getMap());
-        
+
     }
 
     /**
@@ -403,17 +403,25 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
         showMessage(DIE_MESSAGE);
         closeFrame();
     }
-    
+
     private static final String DIE_MESSAGE = "You LOSE...";
     private static final String WIN_MESSAGE = "You WON !!!";
 
     @Override
-    public void moveActionPerformed(EnActionResult actionResult, Golddigger golddigger) {
+    public void moveActionPerformed(EnActionResult actionResult, AbsMovingObject movingObject) {
+        if (movingObject.getType().equals(EnGameObjectType.GOLDDIGGER)) {
+            Golddigger golddigger = (Golddigger) movingObject;
+            checkGolddiggerActions(actionResult, golddigger);
+        }
+        checkCommonActions(actionResult);
+        drawableMap.drawMap();
+    }
 
+    private void checkGolddiggerActions(EnActionResult actionResult, Golddigger movingObject) {
         switch (actionResult) {
             case MOVE:
-                jLabel4.setText(String.valueOf(drawableMap.getGameMap().getTimeLimit() - golddigger.getTurnsNumber()));
-                if (golddigger.getTurnsNumber() >= drawableMap.getGameMap().getTimeLimit()) {
+                jLabel4.setText(String.valueOf(drawableMap.getGameMap().getTimeLimit() - movingObject.getTurnsNumber()));
+                if (movingObject.getTurnsNumber() >= drawableMap.getGameMap().getTimeLimit()) {
                     gameOver();
                 }
                 break;
@@ -421,15 +429,19 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
                 showMessage(WIN_MESSAGE);
                 closeFrame();
                 break;
-            case DIE:
-                gameOver();
-                break;
             case COLLECT_TREASURE:
-                jLabel2.setText(String.valueOf(golddigger.getTotalScore()));
+                jLabel2.setText(String.valueOf(movingObject.getTotalScore()));
                 break;
 
         }
-        drawableMap.drawMap();
+    }
 
+    private void checkCommonActions(EnActionResult actionResult) {
+        switch (actionResult) {
+            case DIE: {
+                gameOver();
+                break;
+            }
+        }
     }
 }

@@ -10,12 +10,13 @@ import golddigger.abstracts.AbsMovingObject;
 import golddigger.abstracts.EnActionResult;
 import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.EnMovingDirection;
+import golddigger.abstracts.IntSoundObject;
 
 /**
  *
  * @author alexkurocha
  */
-public class Monster extends AbsMovingObject {
+public class Monster extends AbsMovingObject implements IntSoundObject {
 
     private final String iconPathUp = "/golddigger/images/red_monster_up.png";
     private final String iconPathDown = "/golddigger/images/red_monster_down.png";
@@ -60,6 +61,16 @@ public class Monster extends AbsMovingObject {
         }
         return super.doAction(gameObject);
         
+    }
+    
+    @Override
+    public String getSoundPath(EnActionResult actionResult) {
+        switch (actionResult) {
+            case DIE: {
+                return "DIE SOUND";
+            }
+        }
+        return null;
     }
     
     

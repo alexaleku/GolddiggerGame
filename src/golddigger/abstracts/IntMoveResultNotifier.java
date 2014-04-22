@@ -1,6 +1,6 @@
 package golddigger.abstracts;
 
-import golddigger.mapobjects.Golddigger;
+import golddigger.abstracts.AbsMovingObject;
 import java.util.List;
 
 /*
@@ -19,7 +19,7 @@ public interface IntMoveResultNotifier {
     void removeMoveListener(IntMoveResultListener moveResultListener);
     void removeAllListeners();
     List<IntMoveResultListener> getListeners();
-    void notifyListeners(EnActionResult actionResult, Golddigger golddiger);
+    void notifyListeners(EnActionResult actionResult, AbsMovingObject movingObject);
     
     
 }

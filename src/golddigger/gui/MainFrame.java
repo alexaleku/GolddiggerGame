@@ -10,6 +10,7 @@ import golddigger.abstracts.EnMapLoaderType;
 import golddigger.abstracts.IntDrawableMap;
 import golddigger.maps.GameCollection;
 import golddigger.maps.JTableGameMap;
+import golddigger.maps.SoundPlayer;
 import javax.swing.SwingUtilities;
 
 /**
@@ -167,6 +168,7 @@ public class MainFrame extends javax.swing.JFrame {
           gameFrame = new FrameGame();
         }
         gameFrame.setMap(new JTableGameMap(EnMapLoaderType.FS, mapLocationSource, new GameCollection()));
+        // gameFrame.getDrawableMap().getGameMap().getGameCollection().addMoveListener(new SoundPlayer());
         gameFrame.showFrame(this);
     }//GEN-LAST:event_jButton1ActionPerformed
 

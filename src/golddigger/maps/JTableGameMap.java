@@ -7,13 +7,14 @@ package golddigger.maps;
 
 import golddigger.abstracts.AbsGameMap;
 import golddigger.abstracts.AbsGameObject;
+import golddigger.abstracts.AbsMovingObject;
 import golddigger.abstracts.EnActionResult;
 import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.EnMapLoaderType;
 import golddigger.abstracts.IntDrawableMap;
 import golddigger.abstracts.IntMoveResultListener;
+import golddigger.abstracts.IntSoundPlayer;
 import golddigger.mapobjects.Coordinate;
-import golddigger.mapobjects.Golddigger;
 import golddigger.mapobjects.Nothing;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -146,7 +147,7 @@ public class JTableGameMap implements IntDrawableMap {
         }
 
         @Override
-        public void moveActionPerformed(EnActionResult actionResult, Golddigger golddigger) {
+        public void moveActionPerformed(EnActionResult actionResult, AbsMovingObject golddigger) {
             if (actionResult == EnActionResult.DIE || actionResult == EnActionResult.WIN) {
                 stopTimer();
             }

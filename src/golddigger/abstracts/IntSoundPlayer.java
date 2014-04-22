@@ -6,13 +6,10 @@
 
 package golddigger.abstracts;
 
-import golddigger.abstracts.AbsMovingObject;
-
 /**
  *
  * @author alexkurocha
  */
-public interface IntMoveResultListener {
-    void moveActionPerformed(EnActionResult actionResult, AbsMovingObject movingObject);
-    
+public interface IntSoundPlayer {
+    void playObjectSound(IntSoundObject soundObject);
 }

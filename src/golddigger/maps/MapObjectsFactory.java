@@ -5,15 +5,16 @@
  */
 package golddigger.maps;
 
-import golddigger.mapobjects.Golddigger;
-import golddigger.mapobjects.Treasure;
-import golddigger.mapobjects.Exit;
-import golddigger.mapobjects.Monster;
-import golddigger.mapobjects.Nothing;
-import golddigger.mapobjects.Wall;
 import golddigger.abstracts.AbsGameObject;
+import golddigger.abstracts.AbsMovingObject;
 import golddigger.abstracts.EnGameObjectType;
 import golddigger.mapobjects.Coordinate;
+import golddigger.mapobjects.Exit;
+import golddigger.mapobjects.Golddigger;
+import golddigger.mapobjects.Monster;
+import golddigger.mapobjects.Nothing;
+import golddigger.mapobjects.Treasure;
+import golddigger.mapobjects.Wall;
 
 /**
  *

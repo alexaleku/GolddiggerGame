@@ -10,7 +10,6 @@ import golddigger.abstracts.IntMonsterMoveAlgorithm;
 import golddigger.abstracts.AbsGameObject;
 import golddigger.abstracts.AbsMovingObject;
 import golddigger.abstracts.EnMovingDirection;
-import golddigger.mapobjects.Golddigger;
 import java.util.Random;
 
 /**

@@ -13,7 +13,6 @@ import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.EnMovingDirection;
 import golddigger.abstracts.IntMoveResultListener;
 import golddigger.mapobjects.Coordinate;
-import golddigger.mapobjects.Golddigger;
 import golddigger.mapobjects.Nothing;
 import golddigger.mapobjects.Wall;
 import java.util.ArrayList;
@@ -29,6 +28,10 @@ public class GameCollection extends MoveActionNotifier {
 
     private final HashMap<Coordinate, AbsGameObject> gameObjects = new HashMap<>();
     private final EnumMap<EnGameObjectType, ArrayList<AbsGameObject>> byTypeGameObjects = new EnumMap<>(EnGameObjectType.class);
+
+    public GameCollection() {
+        addMoveListener(new SoundPlayer());
+    }
 
     @Override
     public AbsGameObject getObjByCoord(Coordinate coordinate) {
@@ -82,7 +85,7 @@ public class GameCollection extends MoveActionNotifier {
 
     private EnActionResult doMoveAction(EnMovingDirection direction, EnGameObjectType gameObjectType, IntMonsterMoveAlgorithm algorithm) {
 
-        Golddigger golddigger = (Golddigger) getObjectsByType(EnGameObjectType.GOLDDIGGER).get(0);
+        AbsMovingObject golddigger = (AbsMovingObject) getObjectsByType(EnGameObjectType.GOLDDIGGER).get(0);
 
         EnActionResult enActionResult = null;
 
@@ -142,7 +145,7 @@ public class GameCollection extends MoveActionNotifier {
     }
 
     @Override
-    public void notifyListeners(EnActionResult actionResult, Golddigger golddiger) {
+    public void notifyListeners(EnActionResult actionResult, AbsMovingObject golddiger) {
         for (IntMoveResultListener moveResultListener : getListeners()) {
             moveResultListener.moveActionPerformed(actionResult, golddiger);
         }
