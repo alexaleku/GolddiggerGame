@@ -11,6 +11,7 @@ import golddigger.abstracts.EnGameObjectType;
 import golddigger.abstracts.EnMovingDirection;
 import golddigger.abstracts.IntDrawableMap;
 import golddigger.abstracts.IntMoveResultListener;
+import golddigger.abstracts.IntSoundPlayer;
 import golddigger.mapobjects.Golddigger;
 import java.awt.event.KeyEvent;
 import utils.MessageManager;
@@ -22,6 +23,7 @@ import utils.MessageManager;
 public class FrameGame extends BaseForChilds implements IntMoveResultListener {
 
     private IntDrawableMap drawableMap;
+    private IntSoundPlayer soundPlayer;
 
     /**
      * Creates new form GameFrame
@@ -30,8 +32,11 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
         initComponents();
     }
 
-    public void setMap(IntDrawableMap drawableMap) {
+    public void setMap(IntDrawableMap drawableMap, IntSoundPlayer soundPlayer) {
         this.drawableMap = drawableMap;
+        this.soundPlayer = soundPlayer;
+        soundPlayer.startBackgroundMusic("background.wav");
+        
         drawableMap.getGameMap().getGameCollection().addMoveListener(this);
 
         jLabel4.setText(String.valueOf(drawableMap.getGameMap().getTimeLimit()));
@@ -39,7 +44,6 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
         drawableMap.drawMap();
         jPanelMap.removeAll();
         jPanelMap.add(drawableMap.getMap());
-
     }
 
     /**
@@ -346,7 +350,6 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
     // End of variables declaration//GEN-END:variables
 
     private void moveObject(EnMovingDirection enMovingDirection, EnGameObjectType enGameObjectType) {
-        System.out.println("Action !!!");
         drawableMap.getGameMap().getGameCollection().moveObject(enMovingDirection, enGameObjectType);
 
     }
@@ -399,8 +402,9 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
         MessageManager.showInformMessage(null, message);
     }
 
-    private void gameOver() {
-        showMessage(DIE_MESSAGE);
+    private void gameFinished(String message) {
+        showMessage(message);
+        soundPlayer.stopBackgoundMusic();
         closeFrame();
     }
 
@@ -422,12 +426,11 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
             case MOVE:
                 jLabel4.setText(String.valueOf(drawableMap.getGameMap().getTimeLimit() - movingObject.getTurnsNumber()));
                 if (movingObject.getTurnsNumber() >= drawableMap.getGameMap().getTimeLimit()) {
-                    gameOver();
+                    gameFinished(DIE_MESSAGE);
                 }
                 break;
             case WIN:
-                showMessage(WIN_MESSAGE);
-                closeFrame();
+                gameFinished(WIN_MESSAGE);
                 break;
             case COLLECT_TREASURE:
                 jLabel2.setText(String.valueOf(movingObject.getTotalScore()));
@@ -439,7 +442,7 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
     private void checkCommonActions(EnActionResult actionResult) {
         switch (actionResult) {
             case DIE: {
-                gameOver();
+                gameFinished(DIE_MESSAGE);
                 break;
             }
         }

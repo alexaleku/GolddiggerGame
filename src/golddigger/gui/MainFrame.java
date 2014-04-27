@@ -3,27 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package golddigger.gui;
 
 import golddigger.abstracts.EnMapLoaderType;
-import golddigger.abstracts.IntDrawableMap;
 import golddigger.maps.GameCollection;
 import golddigger.maps.JTableGameMap;
-import golddigger.maps.SoundPlayer;
-import javax.swing.SwingUtilities;
+import golddigger.maps.SoundPlayerWav;
 
 /**
  *
  * @author alexkurocha
  */
 public class MainFrame extends javax.swing.JFrame {
+
     private String mapLocationSource = "game.map";
-    
+
     private FrameGame gameFrame;
-    private final BaseForChilds frameStat = new FrameStat();;
+    private final BaseForChilds frameStat = new FrameStat();
+    ;
     private final BaseForChilds frameLoadGame = new FrameSavedGames();
     private final BaseForChilds frameSettings = new GameSettings();
+
     /**
      * Creates new form NewJFrame
      */
@@ -165,23 +165,23 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (gameFrame == null) {
-          gameFrame = new FrameGame();
+            gameFrame = new FrameGame();
         }
-        gameFrame.setMap(new JTableGameMap(EnMapLoaderType.FS, mapLocationSource, new GameCollection()));
+        gameFrame.setMap(new JTableGameMap(EnMapLoaderType.FS, mapLocationSource, new GameCollection()), new SoundPlayerWav());
         // gameFrame.getDrawableMap().getGameMap().getGameCollection().addMoveListener(new SoundPlayer());
         gameFrame.showFrame(this);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-       quit();
+        quit();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        frameStat.showFrame(this);    
+        frameStat.showFrame(this);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        frameLoadGame.showFrame(this);    
+        frameLoadGame.showFrame(this);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -215,7 +215,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-     java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainFrame().setVisible(true);
             }

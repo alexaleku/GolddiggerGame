@@ -11,5 +11,9 @@ package golddigger.abstracts;
  * @author alexkurocha
  */
 public interface IntSoundPlayer {
-    void playObjectSound(IntSoundObject soundObject);
+    void playSound(String soundFilePath, final boolean isLoopping, final boolean isStopPrevious);
+    
+    void startBackgroundMusic(String soundName);
+
+    void stopBackgoundMusic();
 }

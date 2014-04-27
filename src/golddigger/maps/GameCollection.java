@@ -30,7 +30,7 @@ public class GameCollection extends MoveActionNotifier {
     private final EnumMap<EnGameObjectType, ArrayList<AbsGameObject>> byTypeGameObjects = new EnumMap<>(EnGameObjectType.class);
 
     public GameCollection() {
-        addMoveListener(new SoundPlayer());
+        addMoveListener(new SoundPlayerWav());
     }
 
     @Override
@@ -100,8 +100,8 @@ public class GameCollection extends MoveActionNotifier {
                 // Checking what object is located in new coordinates before moving the object
                 Coordinate newCoordinate = absMovingObject.getMoveTargetCoord(direction);
                 AbsGameObject objectInNewCoord = getObjByCoord(newCoordinate);
-                System.out.println("gameObjectType " + gameObjectType);
-                System.out.println("direction " + direction + ";  ObjectInNewCoord " + objectInNewCoord);
+//                System.out.println("gameObjectType " + gameObjectType);
+//                System.out.println("direction " + direction + ";  ObjectInNewCoord " + objectInNewCoord);
                 
 
                 enActionResult = absMovingObject.moveToObject(direction, objectInNewCoord);
@@ -117,6 +117,9 @@ public class GameCollection extends MoveActionNotifier {
 
             }
             notifyListeners(enActionResult, golddigger);
+            if (enActionResult == EnActionResult.DIE || enActionResult == EnActionResult.WIN) {
+                break;
+            }
 
         }
 //            Coordinate coordinate = entry.getKey();

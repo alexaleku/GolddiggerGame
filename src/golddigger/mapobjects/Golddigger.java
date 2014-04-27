@@ -102,11 +102,14 @@ public class Golddigger extends AbsMovingObject implements IntSoundObject {
         switch (actionResult) {
 
             case WIN: {
-                return "WIN SOUND";
+                return "win.wav";
             }
 
             case DIE: {
-                return "DIE SOUND";
+                return "die.wav";
+            }
+            case COLLECT_TREASURE: {
+                return "treasure.wav";
             }
         }
         return null;
