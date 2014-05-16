@@ -14,6 +14,7 @@ import golddigger.abstracts.EnMapLoaderType;
 import golddigger.abstracts.IntDrawableMap;
 import golddigger.abstracts.IntMoveResultListener;
 import golddigger.abstracts.IntSoundPlayer;
+import golddigger.abstracts.IntTimeMap;
 import golddigger.mapobjects.Coordinate;
 import golddigger.mapobjects.Nothing;
 import java.awt.Component;
@@ -28,7 +29,7 @@ import javax.swing.table.TableColumn;
  *
  * @author alexkurocha
  */
-public class JTableGameMap implements IntDrawableMap {
+public class JTableGameMap implements IntTimeMap {
 
     private JTable jTableMap = new JTable();
     private AbsGameMap gameMap;
@@ -49,8 +50,6 @@ public class JTableGameMap implements IntDrawableMap {
         gameMap = MapFactory.getInstance().getMapLoader(mapLoaderType, gameCollection);
         gameMap.loadMap(mapLocationSource);
         
-        getGameMap().getGameCollection().addMoveListener(this.moveTimer);
-
     }
 
     public boolean drawMap() {
@@ -119,8 +118,18 @@ public class JTableGameMap implements IntDrawableMap {
     }
 
     private MoveMonsterTimer moveTimer = new MoveMonsterTimer();
+
+    @Override
+    public void stop() {
+        moveTimer.stopTimer();
+    }
+
+    @Override
+    public void start() {
+        moveTimer.startTimer();
+    }
     
-    public class MoveMonsterTimer implements ActionListener, IntMoveResultListener {
+    public class MoveMonsterTimer implements ActionListener {
         
         private Timer timer;
         private final static int MOVE_DELAY = 500;
@@ -145,14 +154,6 @@ public class JTableGameMap implements IntDrawableMap {
         public void actionPerformed(ActionEvent e) {
             getGameMap().getGameCollection().moveObject(new MonsterMovingSlow(), EnGameObjectType.MONSTER);
         }
-
-        @Override
-        public void moveActionPerformed(EnActionResult actionResult, AbsMovingObject golddigger) {
-            if (actionResult == EnActionResult.DIE || actionResult == EnActionResult.WIN) {
-                stopTimer();
-            }
-        }
-        
     }
 
 }

@@ -9,6 +9,8 @@ import golddigger.abstracts.EnMapLoaderType;
 import golddigger.maps.GameCollection;
 import golddigger.maps.JTableGameMap;
 import golddigger.maps.SoundPlayerWav;
+import golddigger.users.AbsUserManager;
+import golddigger.users.CustomDialog;
 
 /**
  *
@@ -17,10 +19,11 @@ import golddigger.maps.SoundPlayerWav;
 public class MainFrame extends javax.swing.JFrame {
 
     private String mapLocationSource = "game.map";
+    private CustomDialog userDialog;
 
     private FrameGame gameFrame;
     private final BaseForChilds frameStat = new FrameStat();
-    ;
+    private final AbsUserManager absUserMan = new AbsUserManager();
     private final BaseForChilds frameLoadGame = new FrameSavedGames();
     private final BaseForChilds frameSettings = new GameSettings();
 
@@ -164,8 +167,12 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (createNewUser() == null) {
+            return;
+        }
+        
         if (gameFrame == null) {
-            gameFrame = new FrameGame();
+            gameFrame = new FrameGame(absUserMan);
         }
         gameFrame.setMap(new JTableGameMap(EnMapLoaderType.FS, mapLocationSource, new GameCollection()), new SoundPlayerWav());
         // gameFrame.getDrawableMap().getGameMap().getGameCollection().addMoveListener(new SoundPlayer());
@@ -233,5 +240,15 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void quit() {
         System.exit(0);
+    }
+
+    private Object createNewUser() {
+        if (rootPaneCheckingEnabled) {
+            userDialog = new CustomDialog(this, "User Name", "Enter Name", true);
+        }
+        if (userDialog.getValidatedText() != null) {
+            return absUserMan.getUser();
+        }
+        return null;
     }
 }

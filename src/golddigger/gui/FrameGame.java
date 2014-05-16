@@ -12,7 +12,9 @@ import golddigger.abstracts.EnMovingDirection;
 import golddigger.abstracts.IntDrawableMap;
 import golddigger.abstracts.IntMoveResultListener;
 import golddigger.abstracts.IntSoundPlayer;
+import golddigger.abstracts.IntTimeMap;
 import golddigger.mapobjects.Golddigger;
+import golddigger.users.AbsUserManager;
 import java.awt.event.KeyEvent;
 import utils.MessageManager;
 
@@ -22,17 +24,16 @@ import utils.MessageManager;
  */
 public class FrameGame extends BaseForChilds implements IntMoveResultListener {
 
-    private IntDrawableMap drawableMap;
+    private IntTimeMap drawableMap;
     private IntSoundPlayer soundPlayer;
+    private AbsUserManager absUserManager;
 
-    /**
-     * Creates new form GameFrame
-     */
-    public FrameGame() {
+    public FrameGame(AbsUserManager absUserManager) {
+        this.absUserManager = absUserManager;
         initComponents();
     }
 
-    public void setMap(IntDrawableMap drawableMap, IntSoundPlayer soundPlayer) {
+    public void setMap(IntTimeMap drawableMap, IntSoundPlayer soundPlayer) {
         this.drawableMap = drawableMap;
         this.soundPlayer = soundPlayer;
         soundPlayer.startBackgroundMusic("background.wav");
@@ -403,6 +404,7 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
     }
 
     private void gameFinished(String message) {
+        drawableMap.stop();
         showMessage(message);
         soundPlayer.stopBackgoundMusic();
         closeFrame();

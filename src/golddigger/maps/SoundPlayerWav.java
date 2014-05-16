@@ -43,8 +43,6 @@ public class SoundPlayerWav implements IntMoveResultListener, IntSoundPlayer {
     public void moveActionPerformed(EnActionResult actionResult, AbsMovingObject movingObject) {
         if (actionResult.equals(EnActionResult.DIE)) {
             System.out.println("here -----------");
-            backGroundClip.stop();
-        backGroundClip.close();
             stopBackgoundMusic();
         }
         if (!(movingObject instanceof IntSoundObject)) {
