@@ -12,18 +12,18 @@ package golddigger.users;
  */
 public class AbsUserManager implements IntUserManager {
     
-    protected User user = new User();
+    protected UserScore user = new UserScore();
 
-    public User getUser() {
+    public UserScore getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserScore user) {
         this.user = user;
     }
     
     public void createNewUser(String userName) {
-        user = new User(userName);
+        user = new UserScore(userName);
     }
         
     @Override

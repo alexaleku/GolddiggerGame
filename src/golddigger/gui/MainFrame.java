@@ -10,7 +10,7 @@ import golddigger.maps.GameCollection;
 import golddigger.maps.JTableGameMap;
 import golddigger.maps.SoundPlayerWav;
 import golddigger.users.AbsUserManager;
-import golddigger.users.CustomDialog;
+import golddigger.gui.CustomJDialog;
 
 /**
  *
@@ -19,7 +19,7 @@ import golddigger.users.CustomDialog;
 public class MainFrame extends javax.swing.JFrame {
 
     private String mapLocationSource = "game.map";
-    private CustomDialog userDialog;
+    private CustomJDialog userDialog;
 
     private FrameGame gameFrame;
     private final BaseForChilds frameStat = new FrameStat();
@@ -244,9 +244,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     private Object createNewUser() {
         if (rootPaneCheckingEnabled) {
-            userDialog = new CustomDialog(this, "User Name", "Enter Name", true);
+            userDialog = new CustomJDialog(this, "User Name", "Enter Name", true);
+            userDialog.setVisible(true);
         }
-        if (userDialog.getValidatedText() != null) {
+          if (userDialog.getValidatedText() != null) {
+            absUserMan.createNewUser(userDialog.getValidatedText());
             return absUserMan.getUser();
         }
         return null;

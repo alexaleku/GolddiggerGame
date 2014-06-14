@@ -10,25 +10,26 @@ package golddigger.users;
  *
  * @author alexkurocha
  */
-public class User {
-    private int userId;
+public class UserScore {
+    private int id;
     private String userName;
     private int score;
+    private long playDate;
     private int playCount;
     
-    User() {
+    UserScore() {
     }
 
-    User(String userName) {
+    UserScore(String userName) {
         this.userName = userName;
     }
 
     public int getUserId() {
-        return userId;
+        return id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserId(String userName) {
+        this.userName = userName;
     }
 
     public String getUserName() {
@@ -53,6 +54,22 @@ public class User {
 
     public void setPlayCount(int playCount) {
         this.playCount = playCount;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public long getPlayDate() {
+        return playDate;
+    }
+
+    public void setPlayDate(long playDate) {
+        this.playDate = playDate;
     }
     
     
