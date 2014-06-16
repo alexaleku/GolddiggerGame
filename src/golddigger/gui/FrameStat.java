@@ -5,19 +5,24 @@ package golddigger.gui;
  * and open the template in the editor.
  */
 
+import golddigger.models.ScoreTableModel;
+import golddigger.score.abstracts.AbsScoreManager;
+import golddigger.score.impl.UserScore;
 import java.awt.event.ActionListener;
-import golddigger.gui.BaseForChilds;
+import java.util.ArrayList;
+import javax.swing.JFrame;
 
 /**
  *
  * @author Tim
  */
 public class FrameStat extends BaseForChilds implements ActionListener {
-
+    private AbsScoreManager scoreManager;
     /**
      * Creates new form FrameStat
      */
-    public FrameStat() {
+    public FrameStat(AbsScoreManager absScoreManager) {
+        this.scoreManager = absScoreManager;
         initComponents();
     }
 
@@ -98,5 +103,14 @@ public class FrameStat extends BaseForChilds implements ActionListener {
     private javax.swing.JTable jTableStat;
     // End of variables declaration//GEN-END:variables
 
-   
+    @Override
+   protected void showFrame(JFrame parent) {
+        ArrayList<UserScore> list = scoreManager.getScoreList();
+        
+        jTableStat.setModel(new ScoreTableModel(list));
+        
+        jTableStat.setRowHeight(40);
+        
+        super.showFrame(parent);
+   }
 }

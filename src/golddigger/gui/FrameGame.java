@@ -5,16 +5,16 @@
  */
 package golddigger.gui;
 
-import golddigger.abstracts.AbsMovingObject;
-import golddigger.abstracts.EnActionResult;
-import golddigger.abstracts.EnGameObjectType;
-import golddigger.abstracts.EnMovingDirection;
-import golddigger.abstracts.IntDrawableMap;
-import golddigger.abstracts.IntMoveResultListener;
-import golddigger.abstracts.IntSoundPlayer;
-import golddigger.abstracts.IntTimeMap;
-import golddigger.mapobjects.Golddigger;
-import golddigger.users.AbsUserManager;
+import golddigger.gameobjects.abstracts.AbsMovingObject;
+import golddigger.enums.EnActionResult;
+import golddigger.enums.EnGameObjectType;
+import golddigger.enums.EnMovingDirection;
+import golddigger.gamemap.interfaces.IntDrawableMap;
+import golddigger.listeners.interfaces.IntMoveResultListener;
+import golddigger.sound.interfaces.IntSoundPlayer;
+import golddigger.gamemap.interfaces.IntTimeMap;
+import golddigger.gameobjects.impl.Golddigger;
+import golddigger.score.abstracts.AbsScoreManager;
 import java.awt.event.KeyEvent;
 import utils.MessageManager;
 
@@ -26,10 +26,10 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
 
     private IntTimeMap drawableMap;
     private IntSoundPlayer soundPlayer;
-    private AbsUserManager absUserManager;
+    private AbsScoreManager absScoreManager;
 
-    public FrameGame(AbsUserManager absUserManager) {
-        this.absUserManager = absUserManager;
+    public FrameGame(AbsScoreManager absScoreManager) {
+        this.absScoreManager = absScoreManager;
         initComponents();
     }
 

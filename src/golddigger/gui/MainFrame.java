@@ -5,12 +5,13 @@
  */
 package golddigger.gui;
 
-import golddigger.abstracts.EnMapLoaderType;
-import golddigger.maps.GameCollection;
-import golddigger.maps.JTableGameMap;
-import golddigger.maps.SoundPlayerWav;
-import golddigger.users.AbsUserManager;
-import golddigger.gui.CustomJDialog;
+import golddigger.enums.EnMapLoaderType;
+import golddigger.collections.impl.GameCollection;
+import golddigger.gamemap.impl.JTableGameMap;
+import golddigger.sound.impl.SoundPlayerWav;
+import golddigger.score.abstracts.AbsScoreManager;
+import golddigger.score.impl.DbScoreManager;
+import golddigger.score.impl.UserScore;
 
 /**
  *
@@ -22,8 +23,8 @@ public class MainFrame extends javax.swing.JFrame {
     private CustomJDialog userDialog;
 
     private FrameGame gameFrame;
-    private final BaseForChilds frameStat = new FrameStat();
-    private final AbsUserManager absUserMan = new AbsUserManager();
+    private FrameStat frameStats;
+    private final AbsScoreManager absScoreMan = new DbScoreManager();
     private final BaseForChilds frameLoadGame = new FrameSavedGames();
     private final BaseForChilds frameSettings = new GameSettings();
 
@@ -167,12 +168,26 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (createNewUser() == null) {
+        if (userDialog == null) {
+            userDialog = new CustomJDialog(this, "User Name", "Enter Name", true);
+        }
+
+        if (absScoreMan.getUserScore() != null && absScoreMan.getUserScore().getUserName() != null) {
+            userDialog.setUsername(absScoreMan.getUserScore().getUserName());
+        }
+
+        userDialog.setVisible(true);
+
+        if (userDialog.getValidatedText() == null) {
             return;
         }
         
+        UserScore userScore = new UserScore(userDialog.getValidatedText());
+        
+        absScoreMan.setUserScore(userScore);
+
         if (gameFrame == null) {
-            gameFrame = new FrameGame(absUserMan);
+            gameFrame = new FrameGame(absScoreMan);
         }
         gameFrame.setMap(new JTableGameMap(EnMapLoaderType.FS, mapLocationSource, new GameCollection()), new SoundPlayerWav());
         // gameFrame.getDrawableMap().getGameMap().getGameCollection().addMoveListener(new SoundPlayer());
@@ -184,7 +199,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        frameStat.showFrame(this);
+        if (frameStats != null) {
+            frameStats = new FrameStat(absScoreMan);
+            frameStats.showFrame(this);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -240,17 +258,5 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void quit() {
         System.exit(0);
-    }
-
-    private Object createNewUser() {
-        if (rootPaneCheckingEnabled) {
-            userDialog = new CustomJDialog(this, "User Name", "Enter Name", true);
-            userDialog.setVisible(true);
-        }
-          if (userDialog.getValidatedText() != null) {
-            absUserMan.createNewUser(userDialog.getValidatedText());
-            return absUserMan.getUser();
-        }
-        return null;
     }
 }

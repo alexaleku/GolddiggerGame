@@ -5,8 +5,8 @@
  */
 package golddigger.gui;
 
-import golddigger.users.IntStringValidator;
-import golddigger.users.NameValidator;
+import golddigger.validators.IntStringValidator;
+import golddigger.validators.NameValidator;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -128,6 +128,7 @@ public class CustomJDialog extends javax.swing.JDialog implements ActionListener
         textField.setText(null);
         setVisible(false);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -155,4 +156,10 @@ public class CustomJDialog extends javax.swing.JDialog implements ActionListener
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    public void setUsername(String username) {
+        textField.setText(username);
+        textField.selectAll();
+        textField.requestFocus();
+    }
 }
