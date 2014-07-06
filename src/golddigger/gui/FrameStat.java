@@ -106,6 +106,7 @@ public class FrameStat extends BaseForChilds implements ActionListener {
     @Override
    protected void showFrame(JFrame parent) {
         ArrayList<UserScore> list = scoreManager.getScoreList();
+        System.out.println("list after scoreManager.getScoreList() " + list.get(0));
         
         jTableStat.setModel(new ScoreTableModel(list));
         

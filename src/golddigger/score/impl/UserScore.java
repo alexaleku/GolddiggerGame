@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package golddigger.score.impl;
 
 /**
@@ -11,12 +10,13 @@ package golddigger.score.impl;
  * @author alexkurocha
  */
 public class UserScore {
+
     private int id;
     private String userName;
     private int score;
     private long playDate;
     private int playCount;
-    
+
     UserScore() {
     }
 
@@ -71,6 +71,5 @@ public class UserScore {
     public void setPlayDate(long playDate) {
         this.playDate = playDate;
     }
-    
-    
+
 }

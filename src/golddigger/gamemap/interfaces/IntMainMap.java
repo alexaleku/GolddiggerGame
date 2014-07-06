@@ -14,6 +14,7 @@ public interface IntMainMap {
     int getHeight();
     int getWidth();
     int getTimeLimit();
+    
     boolean loadMap(Object source);
     boolean saveMap();
 }

@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public class DbScoreManager extends AbsScoreManager {
 
     private Connection con;
-    private String pathToDB = "/db/golddigger.sqlite";
+    private String pathToDB = "golddigger.sqlite";
 
     public DbScoreManager() {
     }
@@ -50,19 +50,42 @@ public class DbScoreManager extends AbsScoreManager {
         ArrayList<UserScore> userScoreList = new ArrayList<UserScore>();
         ResultSet rs = null;
         try {
-            selectStmt.getConnection().prepareStatement("select count(s.score) as play_count, s.score, s.play_date, p.username from score s inner join player p on p.id = s.player_id where s.score>0 group by p.username order by s.score desc, play_count asc limit 10");
+
+            selectStmt = getConnection().prepareStatement("select "
+                   // + " * from player, score");
+                    + "count(s.score) as play_count, "
+                    + "s.score, "
+                    + "s.play_date, "
+                    + "p.username "
+                    + "from score s inner join player p on p.id = s.player_id where s.score>0 "
+                    + "group by p.username order by s.score desc, play_count asc limit 10");
+
             rs = selectStmt.executeQuery();
 
             while (rs.next()) {
-                UserScore userScore = new UserScore();
-                userScore.setPlayDate(rs.getLong("play_date"));
-                userScore.setScore(rs.getInt("score"));
-                userScore.setUserName(rs.getString("username"));
+                //           System.out.println("vot " + rs.getString("username"));
+                UserScore userScore = new UserScore(rs.getString("p.username"));
+                userScore.setPlayDate(rs.getLong("s.play_date"));
+                userScore.setScore(rs.getInt("s.score"));
                 userScore.setPlayCount(rs.getInt("play_count"));
-
+//
                 userScoreList.add(userScore);
             }
-        } catch (Exception e) {
+        } catch (SQLException ex) {
+            Logger.getLogger(DbScoreManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (selectStmt != null) {
+                try {
+                    if (selectStmt != null) {
+                        selectStmt.close();
+                    }
+                    if (rs != null) {
+                        rs.close();
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DbScoreManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
 
         return userScoreList;

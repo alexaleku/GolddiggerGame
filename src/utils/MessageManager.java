@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package utils;
 
 import java.awt.Component;
@@ -14,7 +13,20 @@ import javax.swing.JOptionPane;
  * @author z.alex.kurocha
  */
 public class MessageManager {
-     public static void showInformMessage(Component comp, String message) {
+
+    public static void showInformMessage(Component comp, String message) {
         JOptionPane.showMessageDialog(comp, message, "Message Dialog", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    public static int showYesNoMessage(Component comp, String message) {
+        return JOptionPane.showConfirmDialog(comp, message, "Confirmation", JOptionPane.YES_NO_OPTION);
+    }
+
+    public static int showYesNoCancelMessage(Component comp, String message) {
+        return JOptionPane.showConfirmDialog(comp, message, "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
+    }
+
+    public static void showErrorMessage(Component comp, String message) {
+        JOptionPane.showMessageDialog(comp, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 }

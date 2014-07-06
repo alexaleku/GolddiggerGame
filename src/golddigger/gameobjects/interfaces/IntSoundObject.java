@@ -4,14 +4,15 @@
  * and open the template in the editor.
  */
 
-package golddigger.sound.interfaces;
+package golddigger.gameobjects.interfaces;
 
 import golddigger.enums.EnActionResult;
+import javax.sound.sampled.Clip;
 
 /**
  *
  * @author alexkurocha
  */
 public interface IntSoundObject {
-    String getSoundPath(EnActionResult actionResult);
+    Clip getSoundClip(EnActionResult actionResult);
 }

@@ -6,12 +6,14 @@
 
 package golddigger.sound.interfaces;
 
+import javax.sound.sampled.Clip;
+
 /**
  *
  * @author alexkurocha
  */
 public interface IntSoundPlayer {
-    void playSound(String soundFilePath, final boolean isLoopping, final boolean isStopPrevious);
+    void playSound(Clip clip, final boolean loop);
     
     void startBackgroundMusic(String soundName);
 

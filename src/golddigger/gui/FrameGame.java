@@ -15,14 +15,16 @@ import golddigger.sound.interfaces.IntSoundPlayer;
 import golddigger.gamemap.interfaces.IntTimeMap;
 import golddigger.gameobjects.impl.Golddigger;
 import golddigger.score.abstracts.AbsScoreManager;
+import golddigger.sound.impl.SoundPlayerWav;
 import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 import utils.MessageManager;
 
 /**
  *
  * @author alexkurocha
  */
-public class FrameGame extends BaseForChilds implements IntMoveResultListener {
+public class FrameGame extends ConfirmCloseFrame implements IntMoveResultListener {
 
     private IntTimeMap drawableMap;
     private IntSoundPlayer soundPlayer;
@@ -36,8 +38,8 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
     public void setMap(IntTimeMap drawableMap, IntSoundPlayer soundPlayer) {
         this.drawableMap = drawableMap;
         this.soundPlayer = soundPlayer;
-        soundPlayer.startBackgroundMusic("background.wav");
-        
+        soundPlayer.startBackgroundMusic(SoundPlayerWav.SOUND_BACKGROUND);
+
         drawableMap.getGameMap().getGameCollection().addMoveListener(this);
 
         jLabel4.setText(String.valueOf(drawableMap.getGameMap().getTimeLimit()));
@@ -412,6 +414,7 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
 
     private static final String DIE_MESSAGE = "You LOSE...";
     private static final String WIN_MESSAGE = "You WON !!!";
+    private static final String SAVE_THE_GAME = "Save the game?";
 
     @Override
     public void moveActionPerformed(EnActionResult actionResult, AbsMovingObject movingObject) {
@@ -423,19 +426,20 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
         drawableMap.drawMap();
     }
 
-    private void checkGolddiggerActions(EnActionResult actionResult, Golddigger movingObject) {
+    private void checkGolddiggerActions(EnActionResult actionResult, Golddigger golddigger) {
         switch (actionResult) {
             case MOVE:
-                jLabel4.setText(String.valueOf(drawableMap.getGameMap().getTimeLimit() - movingObject.getTurnsNumber()));
-                if (movingObject.getTurnsNumber() >= drawableMap.getGameMap().getTimeLimit()) {
+                jLabel4.setText(String.valueOf(drawableMap.getGameMap().getTimeLimit() - golddigger.getTurnsNumber()));
+                if (golddigger.getTurnsNumber() >= drawableMap.getGameMap().getTimeLimit()) {
                     gameFinished(DIE_MESSAGE);
                 }
                 break;
             case WIN:
                 gameFinished(WIN_MESSAGE);
+                saveScore(golddigger);
                 break;
             case COLLECT_TREASURE:
-                jLabel2.setText(String.valueOf(movingObject.getTotalScore()));
+                jLabel2.setText(String.valueOf(golddigger.getTotalScore()));
                 break;
 
         }
@@ -449,4 +453,53 @@ public class FrameGame extends BaseForChilds implements IntMoveResultListener {
             }
         }
     }
+
+    private void saveScore(Golddigger golddigger) {
+        absScoreManager.getUserScore().setScore(golddigger.getTotalScore());
+        absScoreManager.saveScore();
+    }
+
+    @Override
+    protected boolean acceptCloseAction() {
+        drawableMap.stop();
+
+        int res = MessageManager.showYesNoCancelMessage(this, SAVE_THE_GAME);
+        switch (res) {
+            case JOptionPane.YES_OPTION: {
+                saveMap();
+                break;
+            }
+            case JOptionPane.NO_OPTION: {
+                closeFrame();
+                break;
+            }
+            case JOptionPane.CANCEL_OPTION: {
+                startGame();
+                return false;
+            }
+        }
+        return true;
+    }
+
+ 
+    private void stopGame() {
+        soundPlayer.stopBackgoundMusic();
+        drawableMap.stop();
+    }
+
+    private void startGame() {
+        soundPlayer.startBackgroundMusic(SoundPlayerWav.SOUND_BACKGROUND);
+        drawableMap.start();
+    }
+
+    @Override
+    protected void closeFrame() {
+        stopGame();
+        super.closeFrame();
+    }
+
+    private void saveMap() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

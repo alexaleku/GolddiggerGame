@@ -10,13 +10,15 @@ import golddigger.gameobjects.abstracts.AbsMovingObject;
 import golddigger.enums.EnActionResult;
 import golddigger.enums.EnGameObjectType;
 import golddigger.enums.EnMovingDirection;
-import golddigger.sound.interfaces.IntSoundObject;
+import golddigger.gameobjects.abstracts.AbsSoundObject;
+import golddigger.gameobjects.interfaces.IntSoundObject;
+import javax.sound.sampled.Clip;
 
 /**
  *
  * @author alexkurocha
  */
-public class Monster extends AbsMovingObject implements IntSoundObject {
+public class Monster extends AbsSoundObject implements IntSoundObject {
 
     private final String iconPathUp = "/golddigger/images/red_monster_up.png";
     private final String iconPathDown = "/golddigger/images/red_monster_down.png";
@@ -50,9 +52,9 @@ public class Monster extends AbsMovingObject implements IntSoundObject {
             }
         }
     }
-    
+
     public EnActionResult doAction(AbsGameObject gameObject) {
-        switch(gameObject.getType()) {
+        switch (gameObject.getType()) {
             case TREASURE:
             case MONSTER:
                 return EnActionResult.NO_ACTION;
@@ -60,19 +62,17 @@ public class Monster extends AbsMovingObject implements IntSoundObject {
                 return EnActionResult.DIE;
         }
         return super.doAction(gameObject);
-        
+
     }
-    
+
     @Override
-    public String getSoundPath(EnActionResult actionResult) {
+    public Clip getSoundClip(EnActionResult actionResult) {
         switch (actionResult) {
             case DIE: {
-                return "DIE SOUND";
+                return super.getDieClip();
             }
         }
         return null;
     }
-    
-    
 
 }

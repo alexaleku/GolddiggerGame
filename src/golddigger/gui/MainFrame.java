@@ -181,9 +181,9 @@ public class MainFrame extends javax.swing.JFrame {
         if (userDialog.getValidatedText() == null) {
             return;
         }
-        
+
         UserScore userScore = new UserScore(userDialog.getValidatedText());
-        
+
         absScoreMan.setUserScore(userScore);
 
         if (gameFrame == null) {
@@ -199,10 +199,11 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (frameStats != null) {
+        System.out.println("here ");
+        if (frameStats == null) {
             frameStats = new FrameStat(absScoreMan);
-            frameStats.showFrame(this);
         }
+        frameStats.showFrame(this);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

@@ -10,13 +10,16 @@ import golddigger.enums.EnGameObjectType;
 import golddigger.gameobjects.abstracts.AbsMovingObject;
 import golddigger.enums.EnActionResult;
 import golddigger.enums.EnMovingDirection;
-import golddigger.sound.interfaces.IntSoundObject;
+import golddigger.gameobjects.abstracts.AbsSoundObject;
+import golddigger.gameobjects.interfaces.IntSoundObject;
+import golddigger.sound.impl.SoundPlayerWav;
+import javax.sound.sampled.Clip;
 
 /**
  *
  * @author alexkurocha
  */
-public class Golddigger extends AbsMovingObject implements IntSoundObject {
+public class Golddigger extends AbsSoundObject implements IntSoundObject {
 
     private final String iconPathUp = "/golddigger/images/Iron_Man_up.png";
     private final String iconPathDown = "/golddigger/images/Iron_Man_down.png";
@@ -24,6 +27,11 @@ public class Golddigger extends AbsMovingObject implements IntSoundObject {
     private final String iconPathLeft = "/golddigger/images/Iron_Man_right.png";
 
     private String imagePath = "/golddigger/images/Iron_Man_down.png";
+
+    private transient Clip moveClip;
+    private transient Clip treasureClip;
+    private transient Clip winClip;
+
     private int totalScore = 0;
     private int turnsNumber = 0;
 
@@ -98,18 +106,31 @@ public class Golddigger extends AbsMovingObject implements IntSoundObject {
     }
 
     @Override
-    public String getSoundPath(EnActionResult actionResult) {
+    public Clip getSoundClip(EnActionResult actionResult) {
+        if (moveClip == null) {
+            moveClip = openClip(SoundPlayerWav.SOUND_MOVE);
+        }
+
+        if (treasureClip == null) {
+            treasureClip = openClip(SoundPlayerWav.SOUND_TREASURE);
+        }
+
+        if (winClip == null) {
+            winClip = openClip(SoundPlayerWav.SOUND_WIN);
+        }
+        
         switch (actionResult) {
-
-            case WIN: {
-                return "win.wav";
+            case MOVE: {
+                return moveClip;
             }
-
             case DIE: {
-                return "die.wav";
+                return super.getDieClip();
             }
             case COLLECT_TREASURE: {
-                return "treasure.wav";
+                return treasureClip;
+            }
+            case WIN: {
+                return winClip;
             }
         }
         return null;
